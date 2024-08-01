@@ -170,13 +170,14 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
         // 기능 구현 (필수 과목, 선택 과목)
+
+        // 기능 구현
         List<String> subjectList = new ArrayList<>();
         subjectList.add("Java");
         subjectList.add("MySQL");
         Scanner sc = new Scanner(System.in);
         Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, subjectList); // 수강생 인스턴스 생성 예시 코드
         studentStore.add(student);
-        // 기능 구현
         System.out.println("수강생 등록 성공!\n");
     }
 

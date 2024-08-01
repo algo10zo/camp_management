@@ -5,6 +5,6 @@ public interface ISubject {
     void addScore(int round, int score);
     void updateScore(int round, int score);
     String getGrade(int round);
-    double getAverageGrade();
+    // double getAverageGrade();
 
 }

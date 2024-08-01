@@ -1,5 +1,7 @@
 package camp.model;
 
+import java.util.Map;
+
 public interface IStudent {
     int getId();
     String getName();

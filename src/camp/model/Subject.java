@@ -1,6 +1,6 @@
 package camp.model;
 
-public class Subject implements ISubject {
+public class Subject {
     private String subjectId;
     private String subjectName;
     private String subjectType;
@@ -24,28 +24,4 @@ public class Subject implements ISubject {
         return subjectType;
     }
 
-    @Override
-    public String getName() {
-        return "";
-    }
-
-    @Override
-    public void addScore(int round, int score) {
-
-    }
-
-    @Override
-    public void updateScore(int round, int score) {
-
-    }
-
-    @Override
-    public String getGrade(int round) {
-        return "";
-    }
-
-    @Override
-    public double getAverageGrade() {
-        return 0;
-    }
 }

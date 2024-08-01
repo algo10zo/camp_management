@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Student {
-    private String originalNumber;
+    private static String originalNumber;
     private String studentName;
     private List<String> subjectList;
 

@@ -1,16 +1,20 @@
 package camp.model;
 
+import java.util.Map;
+
 public class Score {
-    private String scoreId;
+    private int id;
+    private Map<Integer, String> scores; // <점수 , 등급> 으로 저장
 
-    public Score(String seq) {
-        this.scoreId = seq;
+    public void setScores(Map<Integer, String> scores) {
+        this.scores = scores;
     }
 
-    // Getter
-    public String getScoreId() {
-        return scoreId;
+    public int getId() {
+        return this.id;
     }
 
-
+    public void setId(int id) {
+        this.id = id;
+    }
 }

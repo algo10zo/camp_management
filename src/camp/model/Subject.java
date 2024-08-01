@@ -38,7 +38,7 @@ public class Subject implements ISubject {
         if (scoreMap.containsKey(round)) {
             throw new IllegalArgumentException(round + "회차는 이미 존재합니다.");
         }
-        scoreMap.put(round, new Score(score));
+        // scoreMap.put(round, new Score(score));
     }
 
     @Override

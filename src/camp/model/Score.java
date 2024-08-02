@@ -54,7 +54,7 @@ public class Score {
                 return "N";
             }
         }
-        throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.")
+        throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
     }
 
     public String getId() {

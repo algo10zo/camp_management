@@ -8,10 +8,10 @@ public class Subject implements ISubject {
     private String subjectType;
     private Map<Integer, Score> scoreMap;
 
-    public Subject(String seq, String subjectName, String subjectType) {
+    public Subject(String seq, String subjectName, int subjectType) {
         this.subjectId = seq;
         this.subjectName = subjectName;
-        this.subjectType = subjectType;
+        this.subjectType = String.valueOf(subjectType);
     }
 
     // Getter

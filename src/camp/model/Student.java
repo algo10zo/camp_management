@@ -6,9 +6,10 @@ import java.util.Map;
 public class Student implements IStudent{
     private static String originalNumber;
     private String studentName;
-    private List<Subject> subjectList; // subjectList이니까 자료형의 타입을 subject로 수정
+    private List<String> subjectList; // subjectList이니까 자료형의 타입을 subject로 수정
+    //Student 김우진 = new Student()Student 김우진 = new Student()Student 김우진 = new Student()Student 김우진 = new Student()Student 김우진 = new Student()Student 김우진 = new Student()
 
-    public Student(String sequence, String studentName, List<Subject> subjectList) { // 자료형 subject로 수정
+    public Student(String sequence, String studentName, List<String> subjectList) { // 자료형 subject로 수정
         this.originalNumber = sequence;
         this.studentName = studentName;
         this.subjectList = subjectList;

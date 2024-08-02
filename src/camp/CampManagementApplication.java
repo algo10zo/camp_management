@@ -172,16 +172,16 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
         System.out.println("필수 과목 번호를 입력하세요");
-        do{
+        do {
             int number = sc.nextInt();
             subjectList.add(subjectStore.get(number));
-        }while(subjectList.size() < 3);
+        } while (subjectList.size() < 3);
         System.out.println("선택 과목 번호를 입력하세요");
-        do{
+        do {
             int number = sc.nextInt();
             subjectList.add(subjectStore.get(number));
-        }while(subjectList.size()<5);
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT),studentName,subjectList);
+        } while (subjectList.size() < 5);
+        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, subjectList);
 
         System.out.println("수강생 등록 성공!\n");
     }

@@ -17,6 +17,7 @@ import java.util.Scanner;
  * 구현에 도움을 주기위한 Base 프로젝트입니다. 자유롭게 이용해주세요!
  */
 public class CampManagementApplication {
+
     // 데이터 저장소
     private static List<Student> studentStore;
     private static List<Subject> subjectStore;
@@ -172,12 +173,7 @@ public class CampManagementApplication {
         // 기능 구현 (필수 과목, 선택 과목)
 
         // 기능 구현
-        List<String> subjectList = new ArrayList<>();
-        subjectList.add("Java");
-        subjectList.add("MySQL");
-        Scanner sc = new Scanner(System.in);
-        Student student = new Student(sequence(INDEX_TYPE_STUDENT), studentName, subjectList); // 수강생 인스턴스 생성 예시 코드
-        studentStore.add(student);
+
         System.out.println("수강생 등록 성공!\n");
     }
 
@@ -223,6 +219,7 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
         // 기능 구현
+
         System.out.println("\n점수 등록 성공!");
     }
 

@@ -1,12 +1,12 @@
 package camp;
 
-import camp.model.Score;
-import camp.model.Student;
-import camp.model.Subject;
+import camp.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import static camp.model.StudentManager.setInitData;
 
 /**
  * Notification
@@ -17,7 +17,6 @@ import java.util.Scanner;
  * 구현에 도움을 주기위한 Base 프로젝트입니다. 자유롭게 이용해주세요!
  */
 public class CampManagementApplication {
-
     // 데이터 저장소
     private static List<Student> studentStore;
     private static List<Subject> subjectStore;
@@ -48,75 +47,75 @@ public class CampManagementApplication {
     }
 
     // 초기 데이터 생성
-    private static void setInitData() {
-        studentStore = new ArrayList<>();
-        subjectStore = List.of(
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Java",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "객체지향",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "JPA",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MySQL",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "디자인 패턴",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring Security",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Redis",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MongoDB",
-                        SUBJECT_TYPE_CHOICE
-                )
-        );
-        scoreStore = new ArrayList<>();
-    }
+//    private static void setInitData() {
+//        studentStore = new ArrayList<>();
+//        subjectStore = List.of(
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "Java",
+//                        SUBJECT_TYPE_MANDATORY
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "객체지향",
+//                        SUBJECT_TYPE_MANDATORY
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "Spring",
+//                        SUBJECT_TYPE_MANDATORY
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "JPA",
+//                        SUBJECT_TYPE_MANDATORY
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "MySQL",
+//                        SUBJECT_TYPE_MANDATORY
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "디자인 패턴",
+//                        SUBJECT_TYPE_CHOICE
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "Spring Security",
+//                        SUBJECT_TYPE_CHOICE
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "Redis",
+//                        SUBJECT_TYPE_CHOICE
+//                ),
+//                new Subject(
+//                        sequence(INDEX_TYPE_SUBJECT),
+//                        "MongoDB",
+//                        SUBJECT_TYPE_CHOICE
+//                )
+//        );
+//        scoreStore = new ArrayList<>();
+//    }
 
     // index 자동 증가
-    private static String sequence(String type) {
-        switch (type) {
-            case INDEX_TYPE_STUDENT -> {
-                studentIndex++;
-                return INDEX_TYPE_STUDENT + studentIndex;
-            }
-            case INDEX_TYPE_SUBJECT -> {
-                subjectIndex++;
-                return INDEX_TYPE_SUBJECT + subjectIndex;
-            }
-            default -> {
-                scoreIndex++;
-                return INDEX_TYPE_SCORE + scoreIndex;
-            }
-        }
-    }
+//    private static String sequence(String type) {
+//        switch (type) {
+//            case INDEX_TYPE_STUDENT -> {
+//                studentIndex++;
+//                return INDEX_TYPE_STUDENT + studentIndex;
+//            }
+//            case INDEX_TYPE_SUBJECT -> {
+//                subjectIndex++;
+//                return INDEX_TYPE_SUBJECT + subjectIndex;
+//            }
+//            default -> {
+//                scoreIndex++;
+//                return INDEX_TYPE_SCORE + scoreIndex;
+//            }
+//        }
+//    }
 
     private static void displayMainView() throws InterruptedException {
         boolean flag = true;
@@ -171,9 +170,10 @@ public class CampManagementApplication {
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
         // 기능 구현 (필수 과목, 선택 과목)
-
+        StudentManager studentManager = new StudentManager();
+        List<String> selectedSubjects = studentManager.selectSubject();
         // 기능 구현
-
+        studentManager.addStudent(0, studentName, selectedSubjects);
         System.out.println("수강생 등록 성공!\n");
     }
 

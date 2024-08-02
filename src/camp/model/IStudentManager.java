@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface IStudentManager {
     void addStudent(int id, String name, List<String> subjects);
+    List<String> selectSubject();
     IStudent getStudent(int id);
     void updateStudentName(int id, String newName);
     void updateStudentStatus(int id, String newStatus);

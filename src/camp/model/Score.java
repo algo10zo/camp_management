@@ -1,6 +1,5 @@
 package camp.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Score {
@@ -10,7 +9,7 @@ public class Score {
     public Map<Integer, String> getScores() {
         return score;
     }
-    public Score(String id, Map<Integer,String> score){
+    public Score(){
         this.id = id;
         this.score = score ;
     }

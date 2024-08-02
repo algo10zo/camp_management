@@ -8,7 +8,7 @@ public class Score {
     private Map<Integer, String> score; // <점수 , 등급> 으로 저장
 
     public Map<Integer, String> getScores() {
-        return scores;
+        return score;
     }
     public Score(String id, Map<Integer,String> score){
         this.id = id;

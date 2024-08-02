@@ -5,14 +5,18 @@ import java.util.Map;
 
 public class Score {
     private String id;
-    private Map<Integer, String> scores; // <점수 , 등급> 으로 저장
+    private Map<Integer, String> score; // <점수 , 등급> 으로 저장
 
     public Map<Integer, String> getScores() {
         return scores;
     }
+    public Score(String id, Map<Integer,String> score){
+        this.id = id;
+        this.score = score ;
+    }
 
     public void scoreRegister(int score, String type) {
-        scores.put(score, setRank(score, type));
+        this.score.put(score, setRank(score, type));
     }
 
     private String setRank(int score, String subjectType) {

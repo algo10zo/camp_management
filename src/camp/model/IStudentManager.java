@@ -3,7 +3,7 @@ package camp.model;
 import java.util.List;
 
 public interface IStudentManager {
-    void addStudent(int id, String name, List<String> subjects);
+    void addStudent(String id, String name, List<Subject> subjects);
 
     IStudent getStudent(String id);
 

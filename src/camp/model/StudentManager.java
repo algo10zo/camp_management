@@ -6,97 +6,14 @@ import java.util.List;
 
 import java.util.Scanner;
 
-public class StudentManager implements IStudentManager{
-    private static List<Student> studentStore = new ArrayList<>();
-    //{학생1,학생2,학생3,학생4}
-    private static List<Subject> subjectStore = new ArrayList<>();
-    private static List<Score> scoreStore = new ArrayList<>();
-    private static int studentIndex = 0;
-    private static int subjectIndex = 0;
-    private static int scoreIndex = 0;
-
+public class StudentManager implements IStudentManager {
+    private Store store;
     private static Scanner sc = new Scanner(System.in);
 
-    private static final String INDEX_TYPE_STUDENT = "S";
-    private static final String INDEX_TYPE_SUBJECT = "SB";
-    private static final String INDEX_TYPE_SCORE = "SC";
-    private static final int SUBJECT_TYPE_MANDATORY = 0;
-    private static final int SUBJECT_TYPE_CHOICE = 1;
-
-    public static void setInitData() {
-        studentStore = new ArrayList<>();
-        subjectStore = List.of(
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Java",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "객체지향",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "JPA",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MySQL",
-                        SUBJECT_TYPE_MANDATORY
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "디자인 패턴",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Spring Security",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "Redis",
-                        SUBJECT_TYPE_CHOICE
-                ),
-                new Subject(
-                        sequence(INDEX_TYPE_SUBJECT),
-                        "MongoDB",
-                        SUBJECT_TYPE_CHOICE
-                )
-        );
-        scoreStore = new ArrayList<>();
-    }
-
-    private static String sequence(String type) {
-        switch (type) {
-            case INDEX_TYPE_STUDENT -> {
-                studentIndex++;
-                return INDEX_TYPE_STUDENT + studentIndex;
-            }
-            case INDEX_TYPE_SUBJECT -> {
-                subjectIndex++;
-                return INDEX_TYPE_SUBJECT + subjectIndex;
-            }
-            default -> {
-                scoreIndex++;
-                return INDEX_TYPE_SCORE + scoreIndex;
-            }
-        }
-    }
-
     @Override
-    public void addStudent(int id, String name, List<String> subjects) {
-        String studentId = generateStudentId();
-        Student student = new Student(studentId, name, subjects);
-        studentStore.add(student);
+    public void addStudent(String id, String name, List<Subject> subjects) {
+        Student student = new Student(id, name, subjects);
+        store.getStudentStore().add(student);
     }
 
     @Override
@@ -115,7 +32,6 @@ public class StudentManager implements IStudentManager{
         System.out.println("9. MongoDB");
         System.out.println("0. 종료");
         System.out.println("추가할 과목 번호를 입력하세요: ");
-
         do {
             try {
                 int choice = sc.nextInt();
@@ -130,7 +46,7 @@ public class StudentManager implements IStudentManager{
                     continue;
                 } else if (choice >= 1 && choice <= 5) {
                     if (mandatoryCount < 3) {
-                        String subjectName = subjectStore.get(choice - 1).getName();
+                        String subjectName = store.getSubjectStore().get(choice - 1).getName();
                         if (!selectedSubjects.contains(subjectName)) {
                             selectedSubjects.add(subjectName);
                             mandatoryCount++;
@@ -142,7 +58,7 @@ public class StudentManager implements IStudentManager{
                     }
                 } else if (choice >= 6 && choice <= 9) {
                     if (choiceCount < 2) {
-                        String subjectName = subjectStore.get(choice - 1).getName();
+                        String subjectName = store.getSubjectStore().get(choice - 1).getName();
                         if (!selectedSubjects.contains(subjectName)) {
                             selectedSubjects.add(subjectName);
                             choiceCount++;
@@ -174,15 +90,9 @@ public class StudentManager implements IStudentManager{
 
     }
 
-    // 학생 ID 생성 메서드
-    private static String generateStudentId() {
-        studentIndex++;
-        return INDEX_TYPE_STUDENT + studentIndex;
-    }
-
     @Override
     public IStudent getStudent(String id) {
-        return  studentStore.stream()
+        return store.getStudentStore().stream()
                 .filter(s -> s.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("해당 ID의 학생이 존재하지 않습니다."));
@@ -201,6 +111,9 @@ public class StudentManager implements IStudentManager{
     @Override
     public void removeStudent(int id) {
 
+    }
+    public void setStore(Store store){
+        this.store = store;
     }
 
     @Override

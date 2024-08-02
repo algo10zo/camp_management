@@ -15,7 +15,7 @@ public class Score {
         scores.put(score, setRank(score, type));
     }
 
-    private String setRank(int score, String subjectType) {
+    public String setRank(int score, String subjectType) {
         if (subjectType.equals("필수")) {
             if (score >= 95) {
                 return "A";

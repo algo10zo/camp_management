@@ -10,10 +10,6 @@ public class Score {
     public Map<Integer, String> getScores() {
         return score;
     }
-    public Score(String id, Map<Integer,String> score){
-        this.id = id;
-        this.score = score ;
-    }
 
     public void scoreRegister(int score, String type) {
         this.score.put(score, setRank(score, type));

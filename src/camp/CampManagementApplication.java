@@ -167,12 +167,21 @@ public class CampManagementApplication {
 
     // 수강생 등록
     private static void createStudent() {
+        List<Subject> subjectList = new ArrayList<>();
         System.out.println("\n수강생을 등록합니다...");
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
-        // 기능 구현 (필수 과목, 선택 과목)
-
-        // 기능 구현
+        System.out.println("필수 과목 번호를 입력하세요");
+        do{
+            int number = sc.nextInt();
+            subjectList.add(subjectStore.get(number));
+        }while(subjectList.size() < 3);
+        System.out.println("선택 과목 번호를 입력하세요");
+        do{
+            int number = sc.nextInt();
+            subjectList.add(subjectStore.get(number));
+        }while(subjectList.size()<5);
+        Student student = new Student(sequence(INDEX_TYPE_STUDENT),studentName,subjectList);
 
         System.out.println("수강생 등록 성공!\n");
     }

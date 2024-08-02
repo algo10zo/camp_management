@@ -39,7 +39,7 @@ public class Subject implements ISubject {
             throw new IllegalArgumentException(round + "회차는 이미 존재합니다.");
         }
         Score scoreObject = new Score();
-        scoreObject.scoreRegister(score, subjectType);
+        scoreObject.scoreRegister(score, scoreObject.setRank(score, subjectType));
     }
 
     @Override

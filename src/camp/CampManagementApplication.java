@@ -210,13 +210,13 @@ public class CampManagementApplication {
 
         // 필수 과목 추가
         for (String subjectName : mandatorySubjects) {
-            ISubject subject = new Subject(subjectName, SUBJECT_TYPE_MANDATORY);
+            ISubject subject = new Subject(sequence(INDEX_TYPE_SUBJECT),subjectName, SUBJECT_TYPE_MANDATORY);
             student.getSubjects().put(subjectName, subject);
         }
 
         // 선택 과목 추가
         for (String subjectName : choiceSubjects) {
-            ISubject subject = new Subject(subjectName, SUBJECT_TYPE_CHOICE);
+            ISubject subject = new Subject(sequence(INDEX_TYPE_SUBJECT), subjectName, SUBJECT_TYPE_CHOICE);
             student.getSubjects().put(subjectName, subject);
         }
 

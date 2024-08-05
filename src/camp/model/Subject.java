@@ -4,19 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Subject implements ISubject {
+    private String number;
     private String name;
     private String subjectType;
-    private Map<Integer, Integer> scores;
+    private Map<Integer, Integer> scores; // key : round, values : Score
 
-    public Subject(String name, String subjectType) {
-        this.name = name;
+    public Subject(String number,String subject,String subjectType){
+        scores = new HashMap<>();
+        this.number = number;
+        this.name = subject;
         this.subjectType = subjectType;
-        this.scores = new HashMap<>();
     }
 
     @Override
     public String getName() {
-        return name;
+        return null;
     }
 
     @Override
@@ -41,7 +43,6 @@ public class Subject implements ISubject {
         if (score == null) {
             return "해당 회차에 점수가 입력되지 않았습니다.";
         }
-        // calculateGrade 구현 후 입력
         return "";
     }
 

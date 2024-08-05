@@ -10,7 +10,7 @@ public class Subject implements ISubject {
     private String subjectType;
     private Map<Integer, Integer> scores; // key : round, values : Score
 
-    public Subject(String number,String subject,String subjectType){
+    public Subject(String number, String subject, String subjectType) {
         scores = new HashMap<>();
         this.number = number;
         this.name = subject;
@@ -49,7 +49,15 @@ public class Subject implements ISubject {
 
     @Override
     public double getAverageGrade() {
-        if(scores.isEmpty()) return 0;
+        if (scores.isEmpty()) {
+            return 0.0;
+        }
+        double total = 0;
+        for (int score : scores.values()) {
+            total += score;
+        }
+        return total / scores.size();
+    }
 
     private void validateRound(int round) {
         if (round < 1 || round > 10) {
@@ -61,6 +69,5 @@ public class Subject implements ISubject {
         if (score < 0 || score > 100) {
             throw new IllegalArgumentException("점수는 0에서 100 사이여야 합니다.");
         }
-        return total/(double)scores.size();
     }
-    }
+}

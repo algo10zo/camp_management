@@ -1,15 +1,16 @@
 package camp.model;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IStudentManager {
-    void addStudent(int id, String name, List<String> subjects);
-    List<String> selectSubject();
-    IStudent getStudent(int id);
-    void updateStudentName(int id, String newName);
-    void updateStudentStatus(int id, String newStatus);
-    void removeStudent(int id);
+    void addStudent(String studentID, String name, List<String> subjects);
+    IStudent getStudent(String studentID);
+    void updateStudentName(String studentID, String newName);
+    void updateStudentStatus(String studentID, String newStatus);
+    void removeStudent(String studentID);
     List<IStudent> getStudentsByStatus(String status);
     double getAverageGradeForSubject(String subjectName);
     double getAverageGradeForMandatorySubjects(String status, List<String> mandatorySubjects);
+    List<IStudent> getAllStudents();
 }

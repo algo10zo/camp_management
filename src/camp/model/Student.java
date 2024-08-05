@@ -1,42 +1,60 @@
 package camp.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Student implements IStudent{
-    private static String originalNumber;
-    private String studentName;
-    private List<String> subjectList;
+    private String studentID; // 변경된 필드명
+    private String name;
+    private String status;
+    private Map<String, ISubject> subjects;
 
-    public Student(String sequence, String studentName, List<String> subjectList) {
-        this.originalNumber = sequence;
-        this.studentName = studentName;
-        this.subjectList = subjectList;
+    public Student(String studentID, String name, List<String> subjectsList) {
+        this.studentID = studentID; // 변경된 필드명
+        this.name = name;
+        this.status = "Green"; // 기본 상태
+        this.subjects = new HashMap<>();
+        for (String subject : subjectsList) {
+            // 예시: Subject 객체를 생성하고 추가
+            this.subjects.put(subject, new Subject(subject));
+        }
     }
+
+    public Student(String sequence, String studentName) {
+        this.studentID = sequence;
+        this.name = studentName;
+        this.status = "active";
+        this.subjects = new HashMap<>();
+    }
+
     @Override
-    public String getId() {
-        return originalNumber;
+    public String getStudentID() {
+        return studentID;
     }
 
     @Override
     public String getName() {
-        return studentName;
+        return name;
     }
 
     @Override
     public void setName(String name) {
-        this.studentName = name;
+        this.name = name;
+    }
+
+    @Override
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
     public Map<String, ISubject> getSubjects() {
-//        Map<String, ISubject> subjectsMap = Map.of();{
-//            Map.Entry<Integer, String> java = Map.entry(1, "Java");
-//            Map.Entry<Integer, String> OOP = Map.entry(2, "객체지향");
-//            Map.Entry<Integer, String> Spring = Map.entry(3, "Spring");
-//            Map.Entry<Integer, String> JPA = Map.entry(4, "JPA");
-//            Map.Entry<Integer, String> MySQL = Map.entry(5, "MySQL");
-//        }
-        return Map.of();
+        return subjects;
     }
 }

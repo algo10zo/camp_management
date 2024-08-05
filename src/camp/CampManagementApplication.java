@@ -3,10 +3,10 @@ package camp;
 import camp.model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import static camp.model.StudentManager.setInitData;
 
 /**
  * Notification
@@ -18,9 +18,11 @@ import static camp.model.StudentManager.setInitData;
  */
 public class CampManagementApplication {
     // 데이터 저장소
-    private static List<Student> studentStore;
-    private static List<Subject> subjectStore;
-    private static List<Score> scoreStore;
+
+    private static List<Student> studentStore = new ArrayList<>();
+    private static List<Subject> subjectStore = new ArrayList<>();
+    private static List<Score> scoreStore = new ArrayList<>();
+    private static StudentManager studentManager = new StudentManager();
 
     // 과목 타입
     private static String SUBJECT_TYPE_MANDATORY = "MANDATORY";
@@ -47,75 +49,94 @@ public class CampManagementApplication {
     }
 
     // 초기 데이터 생성
-//    private static void setInitData() {
-//        studentStore = new ArrayList<>();
-//        subjectStore = List.of(
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "Java",
-//                        SUBJECT_TYPE_MANDATORY
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "객체지향",
-//                        SUBJECT_TYPE_MANDATORY
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "Spring",
-//                        SUBJECT_TYPE_MANDATORY
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "JPA",
-//                        SUBJECT_TYPE_MANDATORY
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "MySQL",
-//                        SUBJECT_TYPE_MANDATORY
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "디자인 패턴",
-//                        SUBJECT_TYPE_CHOICE
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "Spring Security",
-//                        SUBJECT_TYPE_CHOICE
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "Redis",
-//                        SUBJECT_TYPE_CHOICE
-//                ),
-//                new Subject(
-//                        sequence(INDEX_TYPE_SUBJECT),
-//                        "MongoDB",
-//                        SUBJECT_TYPE_CHOICE
-//                )
-//        );
-//        scoreStore = new ArrayList<>();
-//    }
+    private static void setInitData() {
+        studentStore = new ArrayList<>();
+        subjectStore = List.of(
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "Java",
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "객체지향",
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "Spring",
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "JPA",
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "MySQL",
+                        SUBJECT_TYPE_MANDATORY
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "디자인 패턴",
+                        SUBJECT_TYPE_CHOICE
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "Spring Security",
+                        SUBJECT_TYPE_CHOICE
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "Redis",
+                        SUBJECT_TYPE_CHOICE
+                ),
+                new Subject(
+                        sequence(INDEX_TYPE_SUBJECT),
+                        "MongoDB",
+                        SUBJECT_TYPE_CHOICE
+                )
+        );
+        scoreStore = new ArrayList<>();
+    }
 
-    // index 자동 증가
-//    private static String sequence(String type) {
-//        switch (type) {
-//            case INDEX_TYPE_STUDENT -> {
-//                studentIndex++;
-//                return INDEX_TYPE_STUDENT + studentIndex;
-//            }
-//            case INDEX_TYPE_SUBJECT -> {
-//                subjectIndex++;
-//                return INDEX_TYPE_SUBJECT + subjectIndex;
-//            }
-//            default -> {
-//                scoreIndex++;
-//                return INDEX_TYPE_SCORE + scoreIndex;
-//            }
-//        }
-//    }
+    // index 자동 증가 메서드 (String 타입)
+    private static String sequence(String type) {
+        switch (type) {
+            case INDEX_TYPE_STUDENT -> {
+                studentIndex++;
+                return INDEX_TYPE_STUDENT + studentIndex;
+            }
+            case INDEX_TYPE_SUBJECT -> {
+                subjectIndex++;
+                return INDEX_TYPE_SUBJECT + subjectIndex;
+            }
+            default -> {
+                scoreIndex++;
+                return INDEX_TYPE_SCORE + scoreIndex;
+            }
+        }
+    }
+
+    // index 자동 증가 메서드 (int 타입)
+    private static String intSequence(int type) {
+        switch (type) {
+            case 1 -> {
+                studentIndex++;
+                return INDEX_TYPE_STUDENT + studentIndex;
+            }
+            case 2 -> {
+                subjectIndex++;
+                return INDEX_TYPE_SUBJECT + subjectIndex;
+            }
+            case 3 -> {
+                scoreIndex++;
+                return INDEX_TYPE_SCORE + scoreIndex;
+            }
+            default -> throw new IllegalArgumentException("Invalid type: " + type);
+        }
+    }
 
     private static void displayMainView() throws InterruptedException {
         boolean flag = true;
@@ -129,8 +150,16 @@ public class CampManagementApplication {
             int input = sc.nextInt();
 
             switch (input) {
-                case 1 -> displayStudentView(); // 수강생 관리
-                case 2 -> displayScoreView(); // 점수 관리
+                case 1 -> {
+                    Thread studentThread = new Thread(() -> displayStudentView());
+                    studentThread.start();
+                    studentThread.join(); // 메인 스레드가 studentThread의 종료를 기다림
+                }
+                case 2 -> {
+                    Thread scoreThread = new Thread(() -> displayScoreView());
+                    scoreThread.start();
+                    scoreThread.join(); // 메인 스레드가 scoreThread의 종료를 기다림
+                }
                 case 3 -> flag = false; // 프로그램 종료
                 default -> {
                     System.out.println("잘못된 입력입니다.\n되돌아갑니다!");
@@ -138,6 +167,7 @@ public class CampManagementApplication {
                 }
             }
         }
+
         System.out.println("프로그램을 종료합니다.");
     }
 
@@ -169,20 +199,90 @@ public class CampManagementApplication {
         System.out.println("\n수강생을 등록합니다...");
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
-        // 기능 구현 (필수 과목, 선택 과목)
-        StudentManager studentManager = new StudentManager();
-        List<String> selectedSubjects = studentManager.selectSubject();
-        // 기능 구현
-        studentManager.addStudent(0, studentName, selectedSubjects);
+        System.out.println("\n 필수 과목 목록:");
+        for(Subject subject : subjectStore){
+            if(subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)){
+                System.out.println("-"+subject.getName());
+            }
+
+        }
+        System.out.println("\n선택 과목 목록:");
+        for(Subject subject : subjectStore){
+            if (subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
+                System.out.println("- " + subject.getName());
+            }
+        }
+
+
+        // 필수 과목과 선택 과목을 입력받기
+        System.out.print("필수 과목 (콤마로 구분): ");
+        String[] mandatorySubjects = sc.next().split(",");
+        System.out.print("선택 과목 (콤마로 구분): ");
+        String[] choiceSubjects = sc.next().split(",");
+
+        if(mandatorySubjects.length <3 ){
+            System.out.println("필수 과목은 최소 3개를 선택해야 합니다.");
+            return;
+        }
+        if(choiceSubjects.length <2 ){
+            System.out.println("선택 과목은 최소 2개를 선택해야 합니다.");
+            return;
+        }
+
+        // Student 객체 생성
+        IStudent student = new Student(sequence(INDEX_TYPE_STUDENT), studentName);
+
+        // 필수 과목 추가
+        for (String subjectName : mandatorySubjects) {
+            ISubject subject = new Subject(subjectName, SUBJECT_TYPE_MANDATORY);
+            student.getSubjects().put(subjectName, subject);
+        }
+
+        // 선택 과목 추가
+        for (String subjectName : choiceSubjects) {
+            ISubject subject = new Subject(subjectName, SUBJECT_TYPE_CHOICE);
+            student.getSubjects().put(subjectName, subject);
+        }
+
+        // 학생을 studentManager에 추가
+        studentManager.addStudent(student.getStudentID(), student.getName(), new ArrayList<>(student.getSubjects().keySet()));
+        studentStore.add((Student) student);
+
+
         System.out.println("수강생 등록 성공!\n");
     }
 
-    // 수강생 목록 조회
-    private static void inquireStudent() {
-        System.out.println("\n수강생 목록을 조회합니다...");
-        // 기능 구현
-        System.out.println("\n수강생 목록 조회 성공!");
+// 수강생 목록 조회
+private static void inquireStudent() {
+    System.out.println("\n수강생 목록을 조회합니다...");
+
+    List<IStudent> students = studentManager.getAllStudents();
+    if (students.isEmpty()) {
+        System.out.println("등록된 수강생이 없습니다.");
+    } else {
+        System.out.println("ID\t이름\t상태\t과목");
+        for (IStudent student : students) {
+            // 학생의 과목 목록을 출력
+            StringBuilder subjects = new StringBuilder();
+            for (ISubject subject : student.getSubjects().values()) {
+                if (subjects.length() > 0) {
+                    subjects.append(", ");
+                }
+                subjects.append(subject.getName());
+            }
+
+            // 학생 정보 출력
+            System.out.printf("%s\t%s\t%s\t%s\n",
+                    student.getStudentID(),
+                    student.getName(),
+                    student.getStatus(),
+                    subjects.toString()
+            );
+        }
     }
+
+    System.out.println("\n수강생 목록 조회 성공!");
+}
 
     private static void displayScoreView() {
         boolean flag = true;
@@ -219,7 +319,6 @@ public class CampManagementApplication {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
         // 기능 구현
-
         System.out.println("\n점수 등록 성공!");
     }
 

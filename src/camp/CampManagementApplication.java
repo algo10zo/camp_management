@@ -19,7 +19,6 @@ public class CampManagementApplication {
     // 데이터 저장소
     private static List<Student> studentStore = new ArrayList<>();
     private static List<Subject> subjectStore = new ArrayList<>();
-    private static List<Score> scoreStore = new ArrayList<>();
     private static StudentManager studentManager = new StudentManager();
 
     // 과목 타입
@@ -96,7 +95,6 @@ public class CampManagementApplication {
                         SUBJECT_TYPE_CHOICE
                 )
         );
-        scoreStore = new ArrayList<>();
     }
 
     // index 자동 증가 메서드 (String 타입)
@@ -199,10 +197,10 @@ public class CampManagementApplication {
         String studentName = sc.next();
 
         // 필수 과목과 선택 과목을 입력받기
-        System.out.print("필수 과목 (콤마로 구분): ");
+        System.out.print("필수 과목 3개 입력 (콤마로 구분): ");
         String[] mandatorySubjects = sc.next().split(",");
 
-        System.out.print("선택 과목 (콤마로 구분): ");
+        System.out.print("선택 과목 2개 입력(콤마로 구분): ");
         String[] choiceSubjects = sc.next().split(",");
 
         // Student 객체 생성
@@ -352,16 +350,10 @@ private static void inquireStudent() {
         int newScore = sc.nextInt();
 
         // 점수 수정
-        subject.updateScore(round, newScore);
+
 
         // Score 객체의 점수 업데이트
-        for (Score scoreEntry : scoreStore) {
-            if (scoreEntry.getStudentID().equals(studentId) && scoreEntry.getSubjectID().equals(subjectName) && scoreEntry.getRound() == round) {
-                scoreEntry.setScore(newScore);
-                scoreEntry.calculateGrade(); // 점수에 따라 등급 재계산
-                break;
-            }
-        }
+
 
         System.out.println("\n점수 수정 성공!");
     }

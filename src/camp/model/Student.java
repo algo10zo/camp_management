@@ -1,5 +1,6 @@
 package camp.model;
 
+import java.util.List;
 import java.util.Map;
 
 public class Student implements IStudent {
@@ -7,6 +8,11 @@ public class Student implements IStudent {
     private String name;
     private String status;
     private Map<String, ISubject> subjects;
+
+    Student(String studentID, String name, List<Subject> subject){
+        this.studentID = studentID;
+        this.name = name;
+    }
 
     @Override
     public String getStudentID() {

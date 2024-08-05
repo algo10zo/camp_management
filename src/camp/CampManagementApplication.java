@@ -19,7 +19,6 @@ public class CampManagementApplication {
     // 데이터 저장소
     private static List<Student> studentStore = new ArrayList<>();
     private static List<Subject> subjectStore = new ArrayList<>();
-    private static List<Score> scoreStore = new ArrayList<>();
     private static StudentManager studentManager = new StudentManager();
 
     // 과목 타입
@@ -199,10 +198,10 @@ public class CampManagementApplication {
         String studentName = sc.next();
 
         // 필수 과목과 선택 과목을 입력받기
-        System.out.print("필수 과목 (콤마로 구분): ");
+        System.out.print("필수 과목 3개 입력 (콤마로 구분): ");
         String[] mandatorySubjects = sc.next().split(",");
 
-        System.out.print("선택 과목 (콤마로 구분): ");
+        System.out.print("선택 과목 2개 입력(콤마로 구분): ");
         String[] choiceSubjects = sc.next().split(",");
 
         // Student 객체 생성

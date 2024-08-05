@@ -1,46 +1,8 @@
 package camp.model;
 
-import javax.security.auth.Subject;
-
 public class Score implements IScore {
-    private String scoreID;
-    private String studentID;
-    private String subjectID;
-    private int round;
     private int score;
     private String grade;
-    public Score(String scoreID, String studentID, String subjectID,int round,int score){
-        this.scoreID = scoreID;
-        this.studentID = studentID;
-        this.subjectID = subjectID;
-        this.round = round;
-        this.score = score;
-    }
-
-    @Override
-    public String getScoreID() {
-        return this.scoreID;
-    }
-
-    @Override
-    public String getStudentID() {
-        return this.getStudentID();
-    }
-
-    @Override
-    public String getSubjectID() {
-        return this.getSubjectID();
-    }
-
-    @Override
-    public int getRound() {
-        return this.getRound();
-    }
-
-    @Override
-    public void setRound(int round) {
-        this.round = round;
-    }
 
     @Override
     public int getScore() {
@@ -48,7 +10,7 @@ public class Score implements IScore {
     }
 
     @Override
-    public void setScore(int score,String type) {
+    public void setScore(int score, String type) {
         this.score = score;
         calculateGrade(type);
     }

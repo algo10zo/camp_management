@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IStudentManager {
-    void addStudent(String studentID, String name, List<String> subjects);
+    void addStudent(String studentID, String name, List<Subject> subjects);
     IStudent getStudent(String studentID);
     void updateStudentName(String studentID, String newName);
     void updateStudentStatus(String studentID, String newStatus);

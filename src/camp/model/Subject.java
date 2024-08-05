@@ -1,72 +1,66 @@
 package camp.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Subject implements ISubject {
-    private String number;
-    private String name;
+    private String subjectId;
+    private String subjectName;
     private String subjectType;
-    private Map<Integer, Integer> scores; // key : round, values : Score
+    private Map<Integer, Score> scoreMap;
 
-    public Subject(String number,String subject,String subjectType){
-        scores = new HashMap<>();
-        this.number = number;
-        this.name = subject;
-        this.subjectType = subjectType;
+    public Subject(String seq, String subjectName, int subjectType) {
+        this.subjectId = seq;
+        this.subjectName = subjectName;
+        this.subjectType = String.valueOf(subjectType);
     }
+
+    // Getter
+    public String getSubjectId() {
+        return subjectId;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public String getSubjectType() { return subjectType; }
 
     @Override
     public String getName() {
-        return null;
+        return subjectName;
     }
 
     @Override
-    public void addScore(int round, int score) {
-        if(scores.containsKey(round)) {
-            throw new IllegalArgumentException("해당 회차에 이미 점수가 존재합니다.");
-        }
-        scores.put(round, score);
-    }
-
-    @Override
-    public void updateScore(int round, int score) {
-        if (!scores.containsKey(round)) {
-            throw new IllegalArgumentException("해당 회차에 점수가 입력되지 않았습니다.");
-        }
-        scores.put(round, score);
-    }
-
-    @Override
-    public String getGrade(int round, String subjectType) {
-        Integer score = scores.get(round);
-        if (score == null) {
-            return "해당 회차에 점수가 입력되지 않았습니다.";
-        }
-        return "";
-    }
-
-    @Override
-    public double getAverageGrade() {
-        if (scores.isEmpty()) {
-            return 0.0;
-        }
-        double total = 0;
-        for (int score : scores.values()) {
-            total += score;
-        }
-        return total / scores.size();
-    }
-
-    private void validateRound(int round) {
+    public void addScore(int round, int score, String subjectType) {
         if (round < 1 || round > 10) {
-            throw new IllegalArgumentException("회차는 1에서 10 사이여야 합니다.");
+            throw new IllegalArgumentException("회차는 1과 10 사이입니다.");
         }
+        if (scoreMap.containsKey(round)) {
+            throw new IllegalArgumentException(round + "회차는 이미 존재합니다.");
+        }
+        Score scoreObject = new Score();
+        scoreObject.scoreRegister(score, scoreObject.setRank(score, subjectType));
     }
 
-    private void validateScore(int score) {
-        if (score < 0 || score > 100) {
-            throw new IllegalArgumentException("점수는 0에서 100 사이여야 합니다.");
+    @Override
+    public void updateScore(int round, int score, String subjectType) {
+        if (round < 1 || round > 10) {
+            throw new IllegalArgumentException("회차는 1과 10 사이입니다.");
         }
+        if (!scoreMap.containsKey(round)) {
+            throw new IllegalArgumentException(round + "회차는 이미 존재하지 않습니다. 추가를 먼저해야 합니다.");
+        }
+        scoreMap.get(round).scoreRegister(score, subjectType);
+    }
+
+    @Override
+    public String getGrade(int round) {
+        if (round < 1 || round > 10) {
+            throw new IllegalArgumentException("회차는 1과 10 사이입니다.");
+        }
+        if (scoreMap.containsKey(round)) {
+            // return scoreMap.get(round).setScores();
+        }
+        return "test";
     }
 }

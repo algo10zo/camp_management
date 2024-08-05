@@ -1,53 +1,42 @@
 package camp.model;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Student implements IStudent{
-    private String studentID; // 변경된 필드명
-    private String name;
-    private String status;
-    private Map<String, ISubject> subjects;
+    private static String originalNumber;
+    private String studentName;
+    private List<String> subjectList;
 
-    public Student(String sequence, String name, List<String> subjects) {
-        this.studentID = sequence;
-        this.name = name;
-        this.status = String.valueOf(status);
-        this.subjects = new HashMap<String, ISubject>();
+    public Student(String sequence, String studentName, List<String> subjectList) {
+        this.originalNumber = sequence;
+        this.studentName = studentName;
+        this.subjectList = subjectList;
     }
-
-    public Student(String sequence, String studentName) {
-        this.studentID = sequence;
+    @Override
+    public String getId() {
+        return originalNumber;
     }
 
     @Override
-    public String getStudentID () {
-        return studentID;
+    public String getName() {
+        return studentName;
     }
 
     @Override
-    public String getName () {
-        return name;
+    public void setName(String name) {
+        this.studentName = name;
     }
 
     @Override
-    public void setName (String name){
-        this.name = name;
-    }
-
-    @Override
-    public String getStatus () {
-        return status;
-    }
-
-    @Override
-    public void setStatus (String status){
-        this.status = status;
-    }
-
-    @Override
-    public Map<String, ISubject> getSubjects () {
-        return subjects;
+    public Map<String, ISubject> getSubjects() {
+//        Map<String, ISubject> subjectsMap = Map.of();{
+//            Map.Entry<Integer, String> java = Map.entry(1, "Java");
+//            Map.Entry<Integer, String> OOP = Map.entry(2, "객체지향");
+//            Map.Entry<Integer, String> Spring = Map.entry(3, "Spring");
+//            Map.Entry<Integer, String> JPA = Map.entry(4, "JPA");
+//            Map.Entry<Integer, String> MySQL = Map.entry(5, "MySQL");
+//        }
+        return Map.of();
     }
 }

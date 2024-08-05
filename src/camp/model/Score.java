@@ -1,94 +1,61 @@
 package camp.model;
 
-import javax.security.auth.Subject;
+import java.util.Map;
 
-public class Score implements IScore {
-    private String scoreID;
-    private String studentID;
-    private String subjectID;
-    private int round;
-    private int score;
-    private String grade;
-    public Score(String scoreID, String studentID, String subjectID, int round, int score) {
-        this.scoreID = scoreID;
-        this.studentID = studentID;
-        this.subjectID = subjectID;
-        this.round = round;
-        this.score = score;
+public class Score {
+    private String id;
+    private Map<Integer, String> score; // <점수 , 등급> 으로 저장
+
+    public Map<Integer, String> getScores() {
+        return score;
+    }
+    public Score(){
+        this.id = id;
+        this.score = score ;
     }
 
-    @Override
-    public String getScoreID() {
-        return this.scoreID;
+    public void scoreRegister(int score, String type) {
+        this.score.put(score, setRank(score, type));
     }
 
-    @Override
-    public String getStudentID() {
-        return this.getStudentID();
-    }
-
-    @Override
-    public String getSubjectID() {
-        return this.getSubjectID();
-    }
-
-    @Override
-    public int getRound() {
-        return this.getRound();
-    }
-
-    @Override
-    public void setRound(int round) {
-        this.round = round;
-    }
-
-    @Override
-    public int getScore() {
-        return this.score;
-    }
-
-    @Override
-    public void setScore(int score,String type) {
-        this.score = score;
-        calculateGrade(type);
-    }
-
-    @Override
-    public String getGrade() {
-        return this.grade;
-    }
-
-    @Override
-    public void calculateGrade(String type) {
-        if (type.equals("MANDATORY")) {
+    public String setRank(int score, String subjectType) {
+        if (subjectType.equals("필수")) {
             if (score >= 95) {
-                this.grade = "A";
+                return "A";
             } else if (score >= 90) {
-                this.grade = "B";
+                return "B";
             } else if (score >= 80) {
-                this.grade = "C";
+                return "C";
             } else if (score >= 70) {
-                this.grade = "D";
+                return "D";
             } else if (score >= 60) {
-                this.grade = "F";
+                return "F";
             } else {
-                this.grade = "N";
+                return "N";
             }
-        } else if (type.equals("CHOICE")) {
+        } else if (subjectType.equals("선택")) {
             if (score >= 90) {
-                this.grade = "A";
+                return "A";
             } else if (score >= 80) {
-                this.grade = "B";
+                return "B";
             } else if (score >= 70) {
-                this.grade = "C";
+                return "C";
             } else if (score >= 60) {
-                this.grade = "D";
+                return "D";
             } else if (score >= 50) {
-                this.grade = "F";
+                return "F";
             } else {
-                this.grade = "N";
+                return "N";
             }
         }
         throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

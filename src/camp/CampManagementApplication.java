@@ -21,7 +21,6 @@ public class CampManagementApplication {
 
     private static List<Student> studentStore = new ArrayList<>();
     private static List<Subject> subjectStore = new ArrayList<>();
-    private static List<Score> scoreStore = new ArrayList<>();
     private static StudentManager studentManager = new StudentManager();
 
     // 과목 타입
@@ -98,7 +97,6 @@ public class CampManagementApplication {
                         SUBJECT_TYPE_CHOICE
                 )
         );
-        scoreStore = new ArrayList<>();
     }
 
     // index 자동 증가 메서드 (String 타입)
@@ -215,9 +213,12 @@ public class CampManagementApplication {
 
 
         // 필수 과목과 선택 과목을 입력받기
-        System.out.print("필수 과목 (콤마로 구분): ");
+        System.out.print("필수 과목 3개 입력 (콤마로 구분): ");
         String[] mandatorySubjects = sc.next().split(",");
-        System.out.print("선택 과목 (콤마로 구분): ");
+
+
+        System.out.print("선택 과목 2개 입력(콤마로 구분): ");
+
         String[] choiceSubjects = sc.next().split(",");
 
         if(mandatorySubjects.length <3 ){
@@ -327,7 +328,37 @@ private static void inquireStudent() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
         System.out.println("시험 점수를 수정합니다...");
-        // 기능 구현
+
+
+        // 수강생 확인
+        IStudent student = studentManager.getStudent(studentId);
+        if (student == null) {
+            System.out.println("해당 학생을 찾을 수 없습니다.");
+            return;
+        }
+
+        // 과목 입력 및 확인
+        System.out.print("과목 이름 입력: ");
+        String subjectName = sc.next();
+        ISubject subject = student.getSubjects().get(subjectName);
+        if (subject == null) {
+            System.out.println("해당 과목을 찾을 수 없습니다.");
+            return;
+        }
+
+        // 시험 회차 및 점수 입력
+        System.out.print("시험 회차 입력: ");
+        int round = sc.nextInt();
+        System.out.print("새 점수 입력: ");
+        int newScore = sc.nextInt();
+
+        // 점수 수정
+
+
+        // Score 객체의 점수 업데이트
+
+
+
         System.out.println("\n점수 수정 성공!");
     }
 

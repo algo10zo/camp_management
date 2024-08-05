@@ -79,12 +79,12 @@ public class CampManagementApplication {
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
-                        "디자인 패턴",
+                        "디자인패턴",
                         SUBJECT_TYPE_CHOICE
                 ),
                 new Subject(
                         sequence(INDEX_TYPE_SUBJECT),
-                        "Spring Security",
+                        "SpringSecurity",
                         SUBJECT_TYPE_CHOICE
                 ),
                 new Subject(
@@ -316,9 +316,34 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        String studentId = getStudentId();
+        IStudent student = studentManager.getStudent(studentId); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
-        // 기능 구현
+
+        if (student == null) {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+            return;
+        }
+
+        System.out.println("등록할 과목 이름: ");
+        String subjectName = sc.next();
+        ISubject subject = student.getSubjects().get(subjectName);
+
+        if (subject == null ) {
+            System.out.println("해당 과목을 찾을 수 없습니다.");
+            return;
+        }
+
+        System.out.print("회차 입력: ");
+        int round = sc.nextInt();
+        System.out.print("점수 입력: ");
+        int score = sc.nextInt();
+        subject.addScore(round, score);
+
+        Score scoreObj = new Score(round, score);
+        String subjectType = subject.getSubjectType();
+        scoreStore.add(scoreObj);
+
         System.out.println("\n점수 등록 성공!");
     }
 

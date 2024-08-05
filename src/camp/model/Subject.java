@@ -20,6 +20,7 @@ public class Subject implements ISubject {
         this.name = name;
         scores = new HashMap<>();
     }
+
     public String getSubjectType() {
         return subjectType;
     }
@@ -77,10 +78,6 @@ public class Subject implements ISubject {
         }
         throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
     }
-
-
-
-
 
     @Override
     public double getAverageGrade() {

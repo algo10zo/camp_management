@@ -11,7 +11,6 @@ public class Student implements IStudent{
     private String status;
     private Map<String, ISubject> subjects;
 
-
     public Student(String sequence, String name, List<String> subjects) {
         this.studentID = sequence;
         this.name = name;

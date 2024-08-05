@@ -7,15 +7,12 @@ public class Score implements IScore {
     private int round;
     private int score;
     private String grade;
-
-
     public Score(String scoreID, String studentID, String subjectID, int round, int score) {
         this.scoreID = scoreID;
         this.studentID = studentID;
         this.subjectID = subjectID;
         this.round = round;
         this.score = score;
-
     }
 
     @Override
@@ -91,13 +88,7 @@ public class Score implements IScore {
             }
         }
         throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
-
     }
-
-
-
-
-
 
 }
 

@@ -8,11 +8,7 @@ public interface IScore {
     int getRound();
     void setRound(int round);
     int getScore();
-    void setScore(int score);
-    char getGrade();
-     //
-
-    void calculateGrade(String type);
-
-
+    void setScore(int score,String type);
+    String getGrade();
+    void calculateGrade(String type); //
 }

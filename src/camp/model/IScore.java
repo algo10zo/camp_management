@@ -10,5 +10,9 @@ public interface IScore {
     int getScore();
     void setScore(int score);
     char getGrade();
-    void calculateGrade(); //
+     //
+
+    void calculateGrade(String type);
+
+
 }

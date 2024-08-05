@@ -1,7 +1,5 @@
 package camp.model;
 
-import javax.security.auth.Subject;
-
 public class Score implements IScore {
     private String scoreID;
     private String studentID;
@@ -9,7 +7,7 @@ public class Score implements IScore {
     private int round;
     private int score;
     private String grade;
-    public Score(String scoreID, String studentID, String subjectID,int round,int score){
+    public Score(String scoreID, String studentID, String subjectID, int round, int score) {
         this.scoreID = scoreID;
         this.studentID = studentID;
         this.subjectID = subjectID;
@@ -19,22 +17,22 @@ public class Score implements IScore {
 
     @Override
     public String getScoreID() {
-        return this.scoreID;
+        return scoreID;
     }
 
     @Override
     public String getStudentID() {
-        return this.getStudentID();
+        return studentID;
     }
 
     @Override
     public String getSubjectID() {
-        return this.getSubjectID();
+        return subjectID;
     }
 
     @Override
     public int getRound() {
-        return this.getRound();
+        return round;
     }
 
     @Override
@@ -44,18 +42,18 @@ public class Score implements IScore {
 
     @Override
     public int getScore() {
-        return this.score;
+        return score;
     }
 
     @Override
-    public void setScore(int score,String type) {
+    public void setScore(int score) {
         this.score = score;
-        calculateGrade(type);
+
     }
 
     @Override
-    public String getGrade() {
-        return this.grade;
+    public char getGrade() {
+        return grade.charAt(0);
     }
 
     @Override
@@ -91,5 +89,6 @@ public class Score implements IScore {
         }
         throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
     }
+
 }
 

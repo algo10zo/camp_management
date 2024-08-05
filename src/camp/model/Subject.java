@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class Subject implements ISubject {
-
     private String name;
     private String subjectType;
     private Map<Integer, Integer> scores;
@@ -31,9 +29,6 @@ public class Subject implements ISubject {
         return subjectType;
     }
 
-
-
-
     @Override
     public String getName() {
         return name;
@@ -42,7 +37,6 @@ public class Subject implements ISubject {
     @Override
     public void addScore(int round, int score) {
         scores.put(round, score);
-
     }
 
     @Override

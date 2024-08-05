@@ -1,6 +1,7 @@
 package camp.model;
 
 public class Score implements IScore {
+
     private int score;
     private String grade;
 
@@ -18,7 +19,14 @@ public class Score implements IScore {
     @Override
     public String getGrade() {
         return this.grade;
+
+    public Score(int round, int score) {
+        this.round = round;
+        this.score = score;
+
     }
+
+   
 
     @Override
     public void calculateGrade(String type) {
@@ -52,6 +60,7 @@ public class Score implements IScore {
             }
         }
         throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
+
     }
 }
 

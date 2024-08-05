@@ -10,6 +10,6 @@ public interface ISubject {
     String getName();
     void addScore(int round, int score);
     void updateScore(int round, int score);
-    String getGrade(int round);
+    String getGrade(int round,String subjectType);
     double getAverageGrade();
 }

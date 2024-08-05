@@ -1,6 +1,7 @@
 package camp.model;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 public class Subject implements ISubject {
@@ -68,3 +69,4 @@ public class Subject implements ISubject {
         }
     }
 }
+

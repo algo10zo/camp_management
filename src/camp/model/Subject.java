@@ -36,7 +36,7 @@ public class Subject implements ISubject {
     }
 
     @Override
-    public String getGrade(int round) {
+    public String getGrade(int round, String subjectType) {
         Integer score = scores.get(round);
         if (score == null) {
             return "해당 회차에 점수가 입력되지 않았습니다.";
@@ -59,7 +59,7 @@ public class Subject implements ISubject {
 
     private void validateRound(int round) {
         if (round < 1 || round > 10) {
-            throw new IllegalArgumentException("회ㅏㅊ는 1에서 10 사이여야 합니다.");
+            throw new IllegalArgumentException("회차는 1에서 10 사이여야 합니다.");
         }
     }
 

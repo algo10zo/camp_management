@@ -38,7 +38,7 @@ public class Subject implements ISubject {
             throw new IllegalArgumentException("해당 회차에 점수가 입력되지 않았습니다.");
         }
         Score temp = new Score();
-        temp.setScore(score, this.subjectType);
+        temp.setScore(score,this.subjectType);
         scores.put(round, temp);
     }
 
@@ -50,7 +50,7 @@ public class Subject implements ISubject {
     @Override
     public double getAverageGrade() {
         double sum = 0;
-        for (Score score : scores.values()) {
+        for(Score score : scores.values()){
             sum += score.getScore();
         }
         return sum / scores.size();

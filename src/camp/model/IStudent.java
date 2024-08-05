@@ -1,5 +1,6 @@
 package camp.model;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IStudent {
@@ -8,5 +9,5 @@ public interface IStudent {
     void setName(String name);
     String getStatus();
     void setStatus(String status);
-    Map<String, ISubject> getSubjects();
+    List<ISubject> getSubjects();
 }

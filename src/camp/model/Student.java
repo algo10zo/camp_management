@@ -14,12 +14,14 @@ public class Student implements IStudent{
     public Student(String sequence, String name, List<String> subjects) {
         this.studentID = sequence;
         this.name = name;
-        this.status = String.valueOf(status);
+        this.status = "Green";
         this.subjects = new HashMap<>();
     }
 
     public Student(String sequence, String studentName) {
         this.studentID = sequence;
+        this.name = studentName;
+        this.subjects = new HashMap<>();
     }
 
     @Override

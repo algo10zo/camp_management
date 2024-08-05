@@ -8,7 +8,6 @@ public class Score implements IScore {
     public Score(int round, int score) {
         this.round = round;
         this.score = score;
-
     }
 
     @Override
@@ -69,7 +68,6 @@ public class Score implements IScore {
             }
         }
         throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
-
     }
 
 }

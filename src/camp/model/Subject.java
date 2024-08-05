@@ -4,45 +4,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class Subject implements ISubject {
-
+    private String number;
     private String name;
     private String subjectType;
-    private Map<Integer, Integer> scores;
+    private Map<Integer, Integer> scores; // key : round, values : Score
 
-    public Subject(String name) {
-        this.name = name;
+    public Subject(String number,String subject,String subjectType){
         scores = new HashMap<>();
-    }
-
-    public Subject(String sequence, String name, String subjectType) {
-        this.name = name;
-        this.subjectType = subjectType;
-        scores = new HashMap<>();
-    }
-
-    public Subject(String name, String subjectType) {
-        this.name = name;
+        this.number = number;
+        this.name = subject;
         this.subjectType = subjectType;
     }
-
-    public String getSubjectType() {
-        return subjectType;
-    }
-
-
-
 
     @Override
     public String getName() {
-        return name;
+        return null;
     }
 
     @Override
     public void addScore(int round, int score) {
         scores.put(round, score);
-
     }
 
     @Override
@@ -56,24 +38,12 @@ public class Subject implements ISubject {
     }
 
     @Override
-    public String getGrade(int score, String subjectType) {
-        if (subjectType.equals("필수")) {
-            if (score >= 95) return "A";
-            if (score >= 90) return "B";
-            if (score >= 80) return "C";
-            if (score >= 70) return "D";
-            if (score >= 60) return "F";
-            return "N";
-        } else if (subjectType.equals("선택")) {
-            if (score >= 90) return "A";
-            if (score >= 80) return "B";
-            if (score >= 70) return "C";
-            if (score >= 60) return "D";
-            if (score >= 50) return "F";
-            return "N";
+    public String getGrade(int round, String subjectType) {
+        Integer score = scores.get(round);
+        if (score == null) {
+            return "해당 회차에 점수가 입력되지 않았습니다.";
         }
-        return "N";
-
+        return "";
     }
 
 
@@ -81,9 +51,15 @@ public class Subject implements ISubject {
     public double getAverageGrade() {
         if(scores.isEmpty()) return 0;
 
-        int total = 0;
-        for(int score : scores.values()){
-            total += score;
+    private void validateRound(int round) {
+        if (round < 1 || round > 10) {
+            throw new IllegalArgumentException("회차는 1에서 10 사이여야 합니다.");
+        }
+    }
+
+    private void validateScore(int score) {
+        if (score < 0 || score > 100) {
+            throw new IllegalArgumentException("점수는 0에서 100 사이여야 합니다.");
         }
         return total/(double)scores.size();
     }

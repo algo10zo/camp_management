@@ -7,9 +7,7 @@ public interface IScore {
     int getScore();
     void setScore(int score);
     String getGrade();
-     //
 
     void calculateGrade(String type);
-
 
 }

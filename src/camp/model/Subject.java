@@ -16,10 +16,17 @@ public class Subject implements ISubject {
         this.name = subject;
         this.subjectType = subjectType;
     }
+    public Subject(String name) {
+        this.name = name;
+        scores = new HashMap<>();
+    }
+    public String getSubjectType() {
+        return subjectType;
+    }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
@@ -45,6 +52,9 @@ public class Subject implements ISubject {
         }
         return "";
     }
+
+
+
 
 
     @Override

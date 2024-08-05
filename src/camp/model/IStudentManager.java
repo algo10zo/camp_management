@@ -12,4 +12,5 @@ public interface IStudentManager {
     List<IStudent> getStudentsByStatus(String status);
     double getAverageGradeForSubject(String subjectName);
     double getAverageGradeForMandatorySubjects(String status, List<String> mandatorySubjects);
+    List<IStudent> getAllStudents();
 }

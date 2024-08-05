@@ -317,7 +317,10 @@ public class CampManagementApplication {
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
         String studentId = getStudentId();
-        IStudent student = studentManager.getStudent(studentId); // 관리할 수강생 고유 번호
+        IStudent student = (IStudent) studentStore.stream()
+                .filter(student1 -> student1.getStudentID().equals(studentId))
+                .findFirst()
+                .orElse(null); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
 
         if (student == null) {

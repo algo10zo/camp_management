@@ -7,12 +7,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class StudentManager implements IStudentManager {
     private  Map<String, IStudent> students = new HashMap<>();
     private  Map<String, ISubject> subjects = new HashMap<>();
-
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     public StudentManager() {
         this.students = new HashMap<>();
         this.subjects = new HashMap<>();
+    }
+
+    @Override
+    public List<IStudent> getAllStudents() {
+        return new ArrayList<>(students.values());
     }
 
     @Override

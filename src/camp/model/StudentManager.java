@@ -92,24 +92,14 @@ public class StudentManager implements IStudentManager {
 
 
 
-    @Override
-    public IStudent getStudent(String studentID) {
-        lock.readLock().lock();
-        try {
-            return students.get(studentID);
-        }
-        finally {
-            lock.readLock().unlock();
-        }
 
-    }
 
 
     @Override
     public IStudent removeStudent(String studentID) {
         if(students.containsKey(studentID)) {
             students.remove(studentID);
-            subjects.remove(studentID);
+            System.out.println("삭제 성공");
         }
         else {
             System.out.println("해당 ID를 가진 수강생이 존재하지않습니다.");
@@ -135,47 +125,7 @@ public class StudentManager implements IStudentManager {
 
     }
 
-    @Override
-    public double getAverageGradeForSubject(String subjectName) {
-        lock.readLock().lock();
-        try {
-            double totalGrade = 0.0;
-            int count = 0;
-            for (IStudent student : students.values()) {
-                ISubject subject = student.getSubjects().get(subjectName);
-                if (subject != null) {
-                    totalGrade += subject.getAverageGrade();
-                    count++;
-                }
-            }
-            return count > 0 ? totalGrade / count : 0.0;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-    @Override
-    public double getAverageGradeForMandatorySubjects(String status, List<String> mandatorySubjects) {
-        lock.readLock().lock();
-        try {
-            double totalGrade = 0.0;
-            int count = 0;
-            List<IStudent> studentsByStatus = getStudentsByStatus(status);
 
-            for (IStudent student : studentsByStatus) {
-                for (String subjectName : mandatorySubjects) {
-                    ISubject subject = student.getSubjects().get(subjectName);
-                    if (subject != null) {
-                        totalGrade += subject.getAverageGrade();
-                        count++;
-                    }
-                }
-            }
-            return count > 0 ? totalGrade / count : 0.0;
-        }
-        finally {
-            lock.readLock().unlock();
-        }
-    }
 
 
 

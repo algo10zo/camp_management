@@ -3,6 +3,7 @@ package camp;
 import camp.model.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -428,6 +429,11 @@ public class CampManagementApplication {
         System.out.println("수강생을 삭제합니다");
         System.out.println("삭제할 수강생 ID 입력: ");
         String studentID = sc.next();
+        studentStore.stream().filter(student -> student.getStudentID().equals(studentID)).collect(Collectors.toList()).forEach(x -> {
+            studentStore.remove(x);
+        });
+        
+
         studentManager.removeStudent(studentID);
 
     }

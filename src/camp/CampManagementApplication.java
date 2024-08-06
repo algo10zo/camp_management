@@ -435,12 +435,7 @@ public class CampManagementApplication {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         return sc.next();
     }
-    private static IStudent getStudentByStudentId(String studentId){
-        return (IStudent) studentStore.stream()
-                .filter(student1 -> student1.getStudentID().equals(studentId))
-                .findFirst()
-                .orElse(null);
-    }
+
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
         String studentId = getStudentId();
@@ -478,11 +473,12 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
+        System.out.println("시험 점수를 수정합니다.");
+        System.out.println("학생 ID를 입력하세요");
         String studentID = sc.next(); // 관리할 수강생 고유 번호
         IStudent student = getStudentByStudentId(studentID);
         Map<String, ISubject> subject = student.getSubjects();
 
-        System.out.println("시험 점수를 수정합니다.");
         if (student == null) {
             System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
             return;
@@ -503,7 +499,12 @@ public class CampManagementApplication {
         System.out.println("수정할 점수를 입력하세요: ");
         int updateScore = sc.nextInt();
         student.getSubjects().get(subjectName).updateScore(round, updateScore);
-        System.out.println("점수 수정 성공!");
+
+        if (updateScore >= 0 && updateScore <= 100) {
+            System.out.println("점수 수정 성공");
+        } else {
+            System.out.println("점수 수정 실패");
+        }
     }
 
     // 수강생의 특정 과목 회차별 등급 조회

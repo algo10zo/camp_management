@@ -67,7 +67,7 @@ public class Subject implements ISubject {
             } else if (scores.get(round)  >= 80) {
                 return "B";
             } else if (scores.get(round)  >= 70) {
-                return"C";
+                return "C";
             } else if (scores.get(round)  >= 60) {
                 return "D";
             } else if (scores.get(round)  >= 50) {
@@ -88,7 +88,7 @@ public class Subject implements ISubject {
         for (int score : scores.values()) {
             total += score;
         }
-        return total / scores.size();
+        return total/ scores.size();
     }
 
     private void validateRound(int round) {

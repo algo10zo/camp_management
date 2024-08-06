@@ -36,6 +36,13 @@ public class CampManagementApplication {
     // 스캐너
     private static Scanner sc = new Scanner(System.in);
 
+    private static IStudent getStudentByStudentId(String studentId) {
+        return (IStudent) studentStore.stream()
+                .filter(student1 -> student1.getStudentID().equals(studentId))
+                .findFirst()
+                .orElse(null);
+    }
+
     public static void main(String[] args) {
         setInitData();
         try {
@@ -302,6 +309,7 @@ public class CampManagementApplication {
                                 }
                                 subjects.append(subject.getName());
                             }
+
                             // 학생 정보 출력
                             System.out.printf("ID: %s\n이름: %s\n상태: %s\n과목: %s\n",
                                     student.getStudentID(),
@@ -309,6 +317,10 @@ public class CampManagementApplication {
                                     student.getStatus(),
                                     subjects.toString()
                             );
+                        }
+                        else {
+                            System.out.println("해당 수강생을 찾을수 없습니다");
+                            return;
                         }
                         break;
                 default:
@@ -323,8 +335,7 @@ public class CampManagementApplication {
         String studentID = sc.next();
         IStudent student = studentManager.getStudentById(studentID);
         if (student == null) {
-            System.out.println("해당 ID를 가진 수강생이 없습니다.");
-            return;
+            throw new NoSuchElementException("해당 ID를 가진 수강생은 존재 하지 않습니다");
         }
 
         System.out.println("현재 이름: " + student.getName());

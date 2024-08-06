@@ -16,11 +16,24 @@ public class StudentManager implements IStudentManager {
 
     @Override
     public List<IStudent> getAllStudents() {
-        return new ArrayList<>(students.values());
+        lock.readLock().lock();
+        try {
+            return new ArrayList<>(students.values());
+        }
+        finally {
+            lock.readLock().unlock();
+        }
     }
     @Override
     public IStudent getStudentById(String studentID) {
-        return students.get(studentID);
+        lock.readLock().lock();
+        try{
+            return students.get(studentID);
+        }
+        finally {
+            lock.readLock().unlock();
+        }
+
     }
     @Override
     public void updateStudentStatus(String studentID, String newStatus) {

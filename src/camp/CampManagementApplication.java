@@ -629,48 +629,50 @@ public class CampManagementApplication {
     }
 
     private static void averageGradeForMandatory() {
-        System.out.println("조회할 수강생들의 상태를 입력하세요");
-        String status = sc.next();
-        if (studentStore == null) {
+        if (studentStore.size()==0) {
             System.out.println("조회할 수강생이 없습니다.");
             return;
         }
+        System.out.println("조회할 수강생들의 상태를 입력하세요");
+        String status = sc.next();
         List<Student> statusStudent = studentStore.stream()
                 .filter(student -> student.getStatus().equals(status))
                 .toList();
         int sum = 0;
-
-        for(Student student : statusStudent){
-            System.out.println("수강생 : " + student.getName());
+        if(statusStudent.size()==0){
+            System.out.println("입력된 상태에 해당하는 수강생이 없습니다.");
+        }else {
+            for (Student student : statusStudent) {
+                System.out.println("수강생 : " + student.getName());
 //            List<ISubject> findSubject = student.getSubjects().values().stream()
 //                    .filter(subject -> subject.getSubjectType().equals("Mandatory"))
 //                    .toList();
-            for(ISubject subject : student.getSubjects().values()){
-                if(subject.getSubjectType().equals("MANDATORY")){
-                    double score = subject.getAverageGrade();
-                    String grade = "";
-                    if (score >= 95) {
-                        grade = "A";
-                    } else if (score  >= 90) {
-                        grade = "B";
-                    } else if (score  >= 80) {
-                        grade = "C";
-                    } else if (score  >= 70) {
-                        grade = "D";
-                    } else if (score  >= 60) {
-                        grade = "F";
-                    } else {
-                        grade = "N";
+                for (ISubject subject : student.getSubjects().values()) {
+                    if (subject.getSubjectType().equals("MANDATORY")) {
+                        double score = subject.getAverageGrade();
+                        String grade = "";
+                        if (score >= 95) {
+                            grade = "A";
+                        } else if (score >= 90) {
+                            grade = "B";
+                        } else if (score >= 80) {
+                            grade = "C";
+                        } else if (score >= 70) {
+                            grade = "D";
+                        } else if (score >= 60) {
+                            grade = "F";
+                        } else {
+                            grade = "N";
+                        }
+                        System.out.printf("|  과목(등급) : %s ( %s )  ", subject.getName(), grade);
                     }
-                    System.out.printf("|  과목(등급) : %s ( %s )  ",subject.getName(),grade);
                 }
+                System.out.println("|");
+                System.out.println("평균등급 조회 성공");
             }
-            System.out.println("|");
-
         }
-        System.out.println("평균등급 조회 성공");
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         }catch (InterruptedException e){
 
         }

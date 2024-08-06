@@ -321,17 +321,24 @@ private static void inquireStudent() {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        String studentID = sc.next(); // 관리할 수강생 고유 번호
+        IStudent student = studentManager.getStudentById(studentID);
+        ISubject subject = Subject.getSubject(name);
+        System.out.println("시험 점수를 수정합니다.");
+        if (student == null) {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+            return;
+        }
+
         // 기능 구현 (수정할 과목 및 회차, 점수)
         System.out.println("과목을 입력하세요: ");
         String subject = sc.next();
         System.out.println("회차를 입력하세요: ");
         int round = sc.nextInt();
-        System.out.println("시험 점수를 수정합니다...");
         // 기능 구현
         System.out.println("수정할 점수를 입력하세요: ");
         int updateScore = sc.nextInt();
-//        .get(studentId).get(subject).put(round, updateScore);
+        //Subject.get(studentID).get(subject).put(round, updateScore);
         System.out.println("점수 수정 성공!");
     }
 

@@ -230,6 +230,7 @@ public class CampManagementApplication {
             if(choiceSubjects.length <2 ){
                 System.out.println("선택 과목은 최소 2개를 선택해야 합니다.");
                 return;
+
             }
 
             // Student 객체 생성
@@ -388,7 +389,6 @@ public class CampManagementApplication {
         displayStudentView();
     }
 
-
     private static void displayScoreView() {
         boolean flag = true;
         while (flag) {
@@ -418,11 +418,18 @@ public class CampManagementApplication {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         return sc.next();
     }
-
+    private static IStudent getStudentByStudentId(String studentId){
+        return (IStudent) studentStore.stream()
+                .filter(student1 -> student1.getStudentID().equals(studentId))
+                .findFirst()
+                .orElse(null);
+    }
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        String studentId = getStudentId();
+        IStudent student = getStudentByStudentId(studentId); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
+
         System.out.println("수강생 ID 입력");
         String studentID = sc.next();
         IStudent student = studentManager.getStudentById(studentID);
@@ -434,25 +441,64 @@ public class CampManagementApplication {
         ISubject subject = student.getSubjects().get(subjectName);
 
         // 기능 구현
+
         System.out.println("\n점수 등록 성공!");
     }
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        String studentID = sc.next(); // 관리할 수강생 고유 번호
+        IStudent student = getStudentByStudentId(studentID);
+        Map<String, ISubject> subject = student.getSubjects();
+
+        System.out.println("시험 점수를 수정합니다.");
+        if (student == null) {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+            return;
+        }
+
+        if (subject == null) {
+            System.out.println("해당 과목을 찾을 수 없습니다.");
+            return;
+        }
+
         // 기능 구현 (수정할 과목 및 회차, 점수)
-        System.out.println("시험 점수를 수정합니다...");
+        System.out.println("과목을 입력하세요: ");
+        String subjectName = sc.next();
+
+        System.out.println("회차를 입력하세요: ");
+        int round = sc.nextInt();
         // 기능 구현
-        System.out.println("\n점수 수정 성공!");
+        System.out.println("수정할 점수를 입력하세요: ");
+        int updateScore = sc.nextInt();
+        student.getSubjects().get(subjectName).updateScore(round, updateScore);
+        System.out.println("점수 수정 성공!");
     }
 
     // 수강생의 특정 과목 회차별 등급 조회
     private static void inquireRoundGradeBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
-        // 기능 구현 (조회할 특정 과목)
-        System.out.println("회차별 등급을 조회합니다...");
-        // 기능 구현
-        System.out.println("\n등급 조회 성공!");
+        Student st;
+        String grade = "";
+        for (Student student : studentStore) {
+            if (student.getStudentID().equals(studentId)) {
+                st = student;
+                System.out.println("수강중인 과목");
+                for(String s : st.getSubjects().keySet()){
+                    System.out.println(s);
+                }
+                System.out.println("과목이름을 입력하세요");
+                String subjectName = sc.next();
+                System.out.println("조회할 회차를 입력하세요");
+                int round = sc.nextInt();
+                grade = st.getSubjects().get(subjectName).getGrade(round);
+                System.out.println("회차별 등급을 조회합니다...");
+                // 기능 구현
+                System.out.println("회차 : "+round);
+                System.out.println("등급 : "+grade);
+                System.out.println("\n등급 조회 성공!");
+            }
+        }
     }
 
 }

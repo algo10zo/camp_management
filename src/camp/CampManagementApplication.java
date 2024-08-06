@@ -310,7 +310,12 @@ private static void inquireStudent() {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         return sc.next();
     }
-
+    private static IStudent getStudentByStudentId(String studentId){
+        return (IStudent) studentStore.stream()
+                .filter(student1 -> student1.getStudentID().equals(studentId))
+                .findFirst()
+                .orElse(null);
+    }
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
@@ -322,23 +327,30 @@ private static void inquireStudent() {
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
         String studentID = sc.next(); // 관리할 수강생 고유 번호
-        IStudent student = studentManager.getStudentById(studentID);
-        ISubject subject = Subject.getSubject(name);
+        IStudent student = getStudentByStudentId(studentID);
+        Map<String, ISubject> subject = student.getSubjects();
+
         System.out.println("시험 점수를 수정합니다.");
         if (student == null) {
             System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
             return;
         }
 
+        if (subject == null) {
+            System.out.println("해당 과목을 찾을 수 없습니다.");
+            return;
+        }
+
         // 기능 구현 (수정할 과목 및 회차, 점수)
         System.out.println("과목을 입력하세요: ");
-        String subject = sc.next();
+        String subjectName = sc.next();
+
         System.out.println("회차를 입력하세요: ");
         int round = sc.nextInt();
         // 기능 구현
         System.out.println("수정할 점수를 입력하세요: ");
         int updateScore = sc.nextInt();
-        //Subject.get(studentID).get(subject).put(round, updateScore);
+        student.getSubjects().get(subjectName).updateScore(round, updateScore);
         System.out.println("점수 수정 성공!");
     }
 

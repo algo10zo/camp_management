@@ -2,10 +2,7 @@ package camp;
 
 import camp.model.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -354,11 +351,32 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
-        String studentId = getStudentId(); // 관리할 수강생 고유 번호
+        String studentID = sc.next(); // 관리할 수강생 고유 번호
+        IStudent student = getStudentByStudentId(studentID);
+        Map<String, ISubject> subject = student.getSubjects();
+
+        System.out.println("시험 점수를 수정합니다.");
+        if (student == null) {
+            System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
+            return;
+        }
+
+        if (subject == null) {
+            System.out.println("해당 과목을 찾을 수 없습니다.");
+            return;
+        }
+
         // 기능 구현 (수정할 과목 및 회차, 점수)
-        System.out.println("시험 점수를 수정합니다...");
+        System.out.println("과목을 입력하세요: ");
+        String subjectName = sc.next();
+
+        System.out.println("회차를 입력하세요: ");
+        int round = sc.nextInt();
         // 기능 구현
-        System.out.println("\n점수 수정 성공!");
+        System.out.println("수정할 점수를 입력하세요: ");
+        int updateScore = sc.nextInt();
+        student.getSubjects().get(subjectName).updateScore(round, updateScore);
+        System.out.println("점수 수정 성공!");
     }
 
     // 수강생의 특정 과목 회차별 등급 조회

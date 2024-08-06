@@ -474,7 +474,7 @@ public class CampManagementApplication {
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
         System.out.println("시험 점수를 수정합니다.");
-        System.out.println("학생 ID를 입력하세요");
+        System.out.println("학생 ID를 입력하세요.");
         String studentID = sc.next(); // 관리할 수강생 고유 번호
         IStudent student = getStudentByStudentId(studentID);
         Map<String, ISubject> subject = student.getSubjects();

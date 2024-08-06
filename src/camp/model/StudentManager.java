@@ -1,6 +1,5 @@
 package camp.model;
 
-import java.sql.PseudoColumnUsage;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -17,7 +16,58 @@ public class StudentManager implements IStudentManager {
 
     @Override
     public List<IStudent> getAllStudents() {
-        return new ArrayList<>(students.values());
+        lock.readLock().lock();
+        try {
+            return new ArrayList<>(students.values());
+        }
+        finally {
+            lock.readLock().unlock();
+        }
+    }
+    @Override
+    public IStudent getStudentById(String studentID) {
+        lock.readLock().lock();
+        try{
+            return students.get(studentID);
+        }
+        finally {
+            lock.readLock().unlock();
+        }
+
+    }
+    @Override
+    public void updateStudentStatus(String studentID, String newStatus) {
+        lock.writeLock().lock();
+        try{
+            IStudent student = students.get(studentID);
+            if(student != null) {
+                student.setStatus(newStatus);
+            }
+            else {
+                throw new NoSuchElementException("이 ID를 가진 학생은 존재하지 않습니다.");
+            }
+        }
+        finally {
+            lock.writeLock().unlock();
+        }
+
+    }
+    @Override
+    public void updateStudentName(String studentID, String newName) {
+        lock.writeLock().lock();
+        try {
+            IStudent student = students.get(studentID);
+            if(student != null) {
+                student.setName(newName);
+            }
+            else {
+                throw new NoSuchElementException("이 ID를 가진 학생은 존재하지 않습니다.");
+            }
+        }
+        finally {
+            lock.writeLock().unlock();
+        }
+
     }
 
     @Override
@@ -54,52 +104,17 @@ public class StudentManager implements IStudentManager {
 
     }
 
-    @Override
-    public void updateStudentName(String studentID, String newName) {
-        lock.writeLock().lock();
-        try {
-            IStudent student = students.get(studentID);
-            if(student != null) {
-                student.setName(newName);
-            }
-            else {
-                throw new NoSuchElementException("이 ID를 가진 학생은 존재하지 않습니다.");
-            }
-        }
-        finally {
-            lock.writeLock().unlock();
-        }
-
-    }
 
     @Override
-    public void updateStudentStatus(String studentID, String newStatus) {
-        lock.writeLock().lock();
-        try{
-            IStudent student = students.get(studentID);
-            if(student != null) {
-                student.setStatus(newStatus);
-            }
-            else {
-                throw new NoSuchElementException("이 ID를 가진 학생은 존재하지 않습니다.");
-            }
-        }
-        finally {
-            lock.writeLock().unlock();
-        }
-
-    }
-
-    @Override
-    public void removeStudent(String studentID) {
-        lock.writeLock().lock();
-        try {
+    public IStudent removeStudent(String studentID) {
+        if(students.containsKey(studentID)) {
             students.remove(studentID);
+            subjects.remove(studentID);
         }
-        finally {
-            lock.writeLock().unlock();
+        else {
+            System.out.println("해당 ID를 가진 수강생이 존재하지않습니다.");
         }
-
+        return null;
     }
 
     @Override

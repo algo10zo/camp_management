@@ -412,8 +412,9 @@ public class CampManagementApplication {
             System.out.println("1. 수강생의 과목별 시험 회차 및 점수 등록");
             System.out.println("2. 수강생의 과목별 회차 점수 수정");
             System.out.println("3. 수강생의 특정 과목 회차별 등급 조회");
-            System.out.println("4. 특정 상태 수강생들의 필수 과목 평균 등급 조회");
-            System.out.println("5. 메인 화면 이동");
+            System.out.println("4. 수강생의 과목별 평균 등급 조회");
+            System.out.println("5. 특정 상태 수강생들의 필수 과목 평균 등급 조회");
+            System.out.println("6. 메인 화면 이동");
             System.out.print("관리 항목을 선택하세요...");
             int input = sc.nextInt();
 
@@ -421,8 +422,9 @@ public class CampManagementApplication {
                 case 1 -> createScore(); // 수강생의 과목별 시험 회차 및 점수 등록
                 case 2 -> updateRoundScoreBySubject(); // 수강생의 과목별 회차 점수 수정
                 case 3 -> inquireRoundGradeBySubject(); // 수강생의 특정 과목 회차별 등급 조회
-                case 4 -> averageGradeForMandatory();
-                case 5 -> flag = false; // 메인 화면 이동
+                case 4 -> averageGradeBySubject(); // 수강생의 특정 과목 회차별 등급 조회
+                case 5 -> averageGradeForMandatory();
+                case 6 -> flag = false; // 메인 화면 이동
                 default -> {
                     System.out.println("잘못된 입력입니다.\n메인 화면 이동...");
                     flag = false;
@@ -435,12 +437,7 @@ public class CampManagementApplication {
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         return sc.next();
     }
-    private static IStudent getStudentByStudentId(String studentId){
-        return (IStudent) studentStore.stream()
-                .filter(student1 -> student1.getStudentID().equals(studentId))
-                .findFirst()
-                .orElse(null);
-    }
+
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
         String studentId = getStudentId();
@@ -471,9 +468,6 @@ public class CampManagementApplication {
         Score scoreObj = new Score(round, score);
         String subjectType = subject.getSubjectType();
         scoreStore.add(scoreObj);
-
-
-        System.out.println("\n점수 등록 성공!");
     }
 
     // 수강생의 과목별 회차 점수 수정
@@ -531,6 +525,69 @@ public class CampManagementApplication {
             }
         }
     }
+
+    private static void averageGradeBySubject() {
+        System.out.println("수강생의 과목별 평균 등급을 조회합니다...");
+        System.out.print("조회할 수강생의 ID 입력: ");
+        String studentID = sc.next(); // 관리할 수강생 고유 번호
+        IStudent student = getStudentByStudentId(studentID);
+        if (student == null) {
+            System.out.println("해당 ID의 수강생이 없습니다.");
+            return;
+        }
+        System.out.println(student.getName() + "의 과목별 평균 등급: ");
+        Map<String, ISubject> subjects = student.getSubjects();
+        for (Map.Entry<String, ISubject> entry : subjects.entrySet()) {
+            String subjectName = entry.getKey();
+            ISubject subject = entry.getValue();
+            double averageScore = subject.getAverageGrade();
+            String subjectType = subject.getSubjectType();
+            String averageGrade;
+            if (subjectType.equals("MANDATORY")) {
+                averageGrade = getGradeFromScoreForChoice(averageScore);
+            }
+            else if (subjectType.equals("CHOICE")) {
+                averageGrade = getGradeFromScoreForChoice(averageScore);
+            }
+            else {
+                averageGrade = "N/A";
+            }
+            System.out.println(subjectName + ": " + averageGrade);
+        }
+    }
+
+    private static String getGradeFromScoreForMandatory(double score) {
+        if (score >= 95) {
+            return "A";
+        } else if (score >= 90) {
+            return "B";
+        } else if (score >= 80) {
+            return "C";
+        } else if (score >= 70) {
+            return "D";
+        } else if (score >= 60) {
+            return "F";
+        } else {
+            return "N";
+        }
+    }
+
+    private static String getGradeFromScoreForChoice(double score) {
+        if (score >= 90) {
+            return "A";
+        } else if (score >= 80) {
+            return "B";
+        } else if (score >= 70) {
+            return "C";
+        } else if (score >= 60) {
+            return "D";
+        } else if (score >= 50) {
+            return "F";
+        } else {
+            return "N";
+        }
+    }
+
     private static void averageGradeForMandatory() {
         System.out.println("조회할 수강생들의 상태를 입력하세요");
         String status = sc.next();

@@ -2,10 +2,7 @@ package camp;
 
 import camp.model.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -326,9 +323,16 @@ private static void inquireStudent() {
     private static void updateRoundScoreBySubject() {
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         // 기능 구현 (수정할 과목 및 회차, 점수)
+        System.out.println("과목을 입력하세요: ");
+        String subject = sc.next();
+        System.out.println("회차를 입력하세요: ");
+        int round = sc.nextInt();
         System.out.println("시험 점수를 수정합니다...");
         // 기능 구현
-        System.out.println("\n점수 수정 성공!");
+        System.out.println("수정할 점수를 입력하세요: ");
+        int updateScore = sc.nextInt();
+//        .get(studentId).get(subject).put(round, updateScore);
+        System.out.println("점수 수정 성공!");
     }
 
     // 수강생의 특정 과목 회차별 등급 조회

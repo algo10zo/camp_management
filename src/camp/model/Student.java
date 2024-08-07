@@ -21,6 +21,7 @@ public class Student implements IStudent{
     public Student(String sequence, String studentName) {
         this.studentID = sequence;
         this.name = studentName;
+        this.status = "Green";
         this.subjects = new HashMap<>();
     }
 

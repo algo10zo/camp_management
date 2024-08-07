@@ -20,6 +20,7 @@ public class Subject implements ISubject {
         this.name = name;
         scores = new HashMap<>();
     }
+
     public String getSubjectType() {
         return subjectType;
     }
@@ -45,17 +46,38 @@ public class Subject implements ISubject {
     }
 
     @Override
-    public String getGrade(int round, String subjectType) {
-        Integer score = scores.get(round);
-        if (score == null) {
-            return "해당 회차에 점수가 입력되지 않았습니다.";
+    public String getGrade(int round) {
+        if (subjectType.equals("MANDATORY")) {
+            if (scores.get(round) >= 95) {
+                return "A";
+            } else if (scores.get(round)  >= 90) {
+                return "B";
+            } else if (scores.get(round)  >= 80) {
+                return "C";
+            } else if (scores.get(round)  >= 70) {
+                return "D";
+            } else if (scores.get(round)  >= 60) {
+                return "F";
+            } else {
+                return "N";
+            }
+        } else if (subjectType.equals("CHOICE")) {
+            if (scores.get(round)  >= 90) {
+                return "A";
+            } else if (scores.get(round)  >= 80) {
+                return "B";
+            } else if (scores.get(round)  >= 70) {
+                return "C";
+            } else if (scores.get(round)  >= 60) {
+                return "D";
+            } else if (scores.get(round)  >= 50) {
+                return "F";
+            } else {
+                return "N";
+            }
         }
-        return "";
+        throw new IllegalArgumentException("올바르지 않은 과목 타입입니다.");
     }
-
-
-
-
 
     @Override
     public double getAverageGrade() {
@@ -66,7 +88,7 @@ public class Subject implements ISubject {
         for (int score : scores.values()) {
             total += score;
         }
-        return total / scores.size();
+        return total/ scores.size();
     }
 
     private void validateRound(int round) {

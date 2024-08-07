@@ -3,7 +3,7 @@ package camp.model;
 import java.util.Map;
 
 public interface IStudent {
-    int getId();
+    String getStudentID();
     String getName();
     void setName(String name);
     String getStatus();

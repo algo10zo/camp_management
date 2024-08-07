@@ -450,8 +450,13 @@ public class CampManagementApplication {
     }
 
     private static String getStudentId() {
+        List<IStudent> students = studentManager.getAllStudents();
+        for(IStudent student : students){
+            System.out.println(student.getName());
+        }
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         return sc.next();
+
     }
 
     // 수강생의 과목별 시험 회차 및 점수 등록

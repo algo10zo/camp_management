@@ -209,18 +209,16 @@ public class CampManagementApplication {
         System.out.println("\n수강생을 등록합니다...");
         System.out.print("수강생 이름 입력: ");
         String studentName = sc.next();
-        System.out.println("\n 필수 과목 목록:");
-        for(Subject subject : subjectStore){
-            if(subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)){
-                System.out.println("-"+subject.getName());
-            }
-        }
+
+        System.out.println("\n필수 과목 목록:");
+        subjectStore.stream()
+                .filter(subject -> subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY))
+                .forEach(subject -> System.out.println("- " + subject.getName()));
+
         System.out.println("\n선택 과목 목록:");
-        for(Subject subject : subjectStore){
-            if (subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)) {
-                System.out.println("- " + subject.getName());
-            }
-        }
+        subjectStore.stream()
+                .filter(subject -> subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE))
+                .forEach(subject -> System.out.println("- " + subject.getName()));
 
         // 필수 과목과 선택 과목을 입력받기
         System.out.print("필수 과목 (콤마로 구분): ");
@@ -228,66 +226,63 @@ public class CampManagementApplication {
         System.out.print("선택 과목 (콤마로 구분): ");
         String[] choiceSubjects = sc.next().split(",");
 
-
-
-
-        if(mandatorySubjects.length <3 ){
+        if (mandatorySubjects.length < 3) {
             System.out.println("필수 과목은 최소 3개를 선택해야 합니다.");
             System.out.println("등록 실패");
             return;
         }
-        if(choiceSubjects.length <2 ){
+        if (choiceSubjects.length < 2) {
             System.out.println("선택 과목은 최소 2개를 선택해야 합니다.");
             System.out.println("등록 실패");
             return;
         }
-        //입력된 과목명이 유효한지 확인 및 타입 검사
-        ArrayList<String> validMandatory = new ArrayList<>();
-        ArrayList<String> validChoice = new ArrayList<>();
-        for(Subject subject : subjectStore){
-            if(subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY)){
-                validMandatory.add(subject.getName());
-            }
-            else if(subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE)){
-                validChoice.add(subject.getName());
-            }
 
+        // 입력된 과목명이 유효한지 확인 및 타입 검사
+        List<String> validMandatory = subjectStore.stream()
+                .filter(subject -> subject.getSubjectType().equals(SUBJECT_TYPE_MANDATORY))
+                .map(Subject::getName)
+                .collect(Collectors.toList());
+
+        List<String> validChoice = subjectStore.stream()
+                .filter(subject -> subject.getSubjectType().equals(SUBJECT_TYPE_CHOICE))
+                .map(Subject::getName)
+                .collect(Collectors.toList());
+
+        boolean mandatoryInvalid = Arrays.stream(mandatorySubjects)
+                .anyMatch(subjectName -> !validMandatory.contains(subjectName));
+
+        boolean choiceInvalid = Arrays.stream(choiceSubjects)
+                .anyMatch(subjectName -> !validChoice.contains(subjectName));
+
+        if (mandatoryInvalid) {
+            System.out.println("잘못된 필수 과목명이 입력되었습니다.");
+            System.out.println("등록 실패");
+            return;
         }
-        for (String subjectName : mandatorySubjects) {
-            if (!validMandatory.contains(subjectName)) {
-                System.out.println("잘못된 필수 과목명이 입력되었습니다: " );
-                System.out.println("등록 실패");
-                return;
-            }
-        }
-        for (String subjectName : choiceSubjects) {
-            if (!validChoice.contains(subjectName)) {
-                System.out.println("잘못된 선택 과목명이 입력되었습니다: ");
-                System.out.println("등록 실패");
-                return;
-            }
+        if (choiceInvalid) {
+            System.out.println("잘못된 선택 과목명이 입력되었습니다.");
+            System.out.println("등록 실패");
+            return;
         }
 
         // Student 객체 생성
         IStudent student = new Student(sequence(INDEX_TYPE_STUDENT), studentName);
 
         // 필수 과목 추가
-        for (String subjectName : mandatorySubjects) {
-            ISubject subject = new Subject(sequence(INDEX_TYPE_SUBJECT),subjectName, SUBJECT_TYPE_MANDATORY);
+        Arrays.stream(mandatorySubjects).forEach(subjectName -> {
+            ISubject subject = new Subject(sequence(INDEX_TYPE_SUBJECT), subjectName, SUBJECT_TYPE_MANDATORY);
             student.getSubjects().put(subjectName, subject);
-        }
+        });
 
         // 선택 과목 추가
-        for (String subjectName : choiceSubjects) {
+        Arrays.stream(choiceSubjects).forEach(subjectName -> {
             ISubject subject = new Subject(sequence(INDEX_TYPE_SUBJECT), subjectName, SUBJECT_TYPE_CHOICE);
             student.getSubjects().put(subjectName, subject);
-        }
+        });
 
         // 학생을 studentManager에 추가
         studentManager.addStudent(student.getStudentID(), student.getName(), new ArrayList<>(student.getSubjects().keySet()));
         studentStore.add((Student) student);
-
-
 
         System.out.println("수강생 등록 성공!\n");
 
@@ -306,52 +301,41 @@ public class CampManagementApplication {
         switch (choice) {
             case 1:
                 List<IStudent> students = studentManager.getAllStudents();
-                if(students.isEmpty()){
+                if (students.isEmpty()) {
                     System.out.println("등록된 수강생이 없습니다.");
-                }
-                else{
+                } else {
                     System.out.println("ID\t이름\t상태\t과목");
-                    for(IStudent student : students){
-                        StringBuilder subjects = new StringBuilder();
-                        for(ISubject subject : student.getSubjects().values()){
-                            if(subjects.length() > 0){
-                                subjects.append(",");
-                            }
-                            subjects.append(subject.getName());
-                        }
+                    students.forEach(student -> {
+                        String subjects = student.getSubjects().values().stream()
+                                .map(ISubject::getName)
+                                .collect(Collectors.joining(","));
                         // 학생 정보 출력
                         System.out.printf("%s\t%s\t%s\t%s\n",
                                 student.getStudentID(),
                                 student.getName(),
                                 student.getStatus(),
-                                subjects.toString()
+                                subjects
                         );
-                    }
+                    });
                 }
                 break;
             case 2:
-                //특정 수강생 조회
+                // 특정 수강생 조회
                 System.out.println("조회할 수강생 ID입력:");
                 String studentID = sc.next();
                 IStudent student = studentManager.getStudentById(studentID);
-                if(student != null){
-                    StringBuilder subjects = new StringBuilder();
-                    for(ISubject subject : student.getSubjects().values()){
-                        if(subjects.length() > 0){
-                            subjects.append(",");
-                        }
-                        subjects.append(subject.getName());
-                    }
-
+                if (student != null) {
+                    String subjects = student.getSubjects().values().stream()
+                            .map(ISubject::getName)
+                            .collect(Collectors.joining(","));
                     // 학생 정보 출력
                     System.out.printf("ID: %s\n이름: %s\n상태: %s\n과목: %s\n",
                             student.getStudentID(),
                             student.getName(),
                             student.getStatus(),
-                            subjects.toString()
+                            subjects
                     );
-                }
-                else {
+                } else {
                     System.out.println("해당 수강생을 찾을수 없습니다");
                     return;
                 }
@@ -378,24 +362,25 @@ public class CampManagementApplication {
         int choice = sc.nextInt();
 
         switch (choice) {
-            case 1:
+            case 1 -> {
                 System.out.println("새 이름 입력");
                 String newName = sc.next();
-                studentManager.updateStudentName(studentID,newName);
+                studentManager.updateStudentName(studentID, newName);
                 System.out.println("수강생 이름 수정 성공");
-                displayStudentView();
-                break;
 
-            case 2:
+            }
+
+            case 2 -> {
                 System.out.println("변경할 상태를 선택하세요: Green, Red, Yellow");
                 System.out.print("상태 입력: ");
                 String newStatus = sc.next();
-                if(!newStatus.equals("Green") && !newStatus.equals("Red") && !newStatus.equals("Yellow")){
+                if (!newStatus.equals("Green") && !newStatus.equals("Red") && !newStatus.equals("Yellow")) {
                     throw new IllegalStateException("잘못된 상태 입력입니다.");
                 }
-                studentManager.updateStudentStatus(studentID,newStatus);
+                studentManager.updateStudentStatus(studentID, newStatus);
                 System.out.println("수강생 상태 수정 성공");
-                break;
+
+            }
 
         }
     }
@@ -415,13 +400,10 @@ public class CampManagementApplication {
         }
         else {
             System.out.println("ID\t이름");
-            for(IStudent student : students){
-                System.out.printf("%s\t%s\n",
-                        student.getStudentID(),
-                        student.getName()
-                );
-                ;
-            }
+            students.stream()
+                    .forEach(student -> System.out.printf("%s\t%s\n",
+                            student.getStudentID(),
+                            student.getName()));
         }
         System.out.println("\n상태별 수강생 목록 조회 성공!");
     }
@@ -432,17 +414,11 @@ public class CampManagementApplication {
         studentStore.stream().filter(student -> student.getStudentID().equals(studentID)).collect(Collectors.toList()).forEach(x -> {
             studentStore.remove(x);
         });
-        
+
 
         studentManager.removeStudent(studentID);
 
     }
-
-
-
-
-
-
 
     private static void displayScoreView() {
         boolean flag = true;

@@ -452,7 +452,7 @@ public class CampManagementApplication {
     private static String getStudentId() {
         List<IStudent> students = studentManager.getAllStudents();
         for(IStudent student : students){
-            System.out.println(student.getName());
+            System.out.println(student.getStudentID()+"\t"+student.getName());
         }
         System.out.print("\n관리할 수강생의 번호를 입력하시오...");
         return sc.next();

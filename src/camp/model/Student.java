@@ -57,5 +57,6 @@ public class Student implements IStudent{
 
     public Map<String, ISubject> getSubjects () {
         return subjects;
+    
     }
 }

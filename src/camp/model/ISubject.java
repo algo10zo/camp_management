@@ -14,3 +14,4 @@ public interface ISubject {
     double getAverageGrade();
     String getSubjectType();
 }
+

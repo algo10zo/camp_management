@@ -51,7 +51,7 @@ public class Subject implements ISubject {
     @Override
     public String getGrade(int round) {
         if(scores.get(round) == null){
-            throw new NullPointerException("점수를 먼저 등록해주세요");
+            throw new NullPointerException("존재하지 않는 회차 입니다");
         }
         if (subjectType.equals("MANDATORY")) {
             if (scores.get(round) >= 95) {

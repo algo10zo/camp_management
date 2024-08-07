@@ -32,11 +32,14 @@ public class Subject implements ISubject {
 
     @Override
     public void addScore(int round, int score) {
+        validateRound(round);
+        validateScore(score);
         scores.put(round, score);
     }
 
     @Override
     public void updateScore(int round, int score) {
+        validateScore(score);
         if (scores.containsKey(round)) {
             scores.put(round, score);
         } else {
@@ -47,6 +50,9 @@ public class Subject implements ISubject {
 
     @Override
     public String getGrade(int round) {
+        if(scores.get(round) == null){
+            throw new NullPointerException("점수를 먼저 등록해주세요");
+        }
         if (subjectType.equals("MANDATORY")) {
             if (scores.get(round) >= 95) {
                 return "A";

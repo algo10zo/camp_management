@@ -507,6 +507,10 @@ public class CampManagementApplication {
         // 기능 구현 (수정할 과목 및 회차, 점수)
         System.out.println("과목을 입력하세요: ");
         String subjectName = sc.next();
+        if(student.getSubjects().get(subjectName) == null){
+            System.out.println("잘못된 과목 입력입니다.");
+            return;
+        }
 
         System.out.println("회차를 입력하세요: ");
         int round = sc.nextInt();
@@ -514,12 +518,6 @@ public class CampManagementApplication {
         System.out.println("수정할 점수를 입력하세요: ");
         int updateScore = sc.nextInt();
         student.getSubjects().get(subjectName).updateScore(round, updateScore);
-
-        if (updateScore >= 0 && updateScore <= 100) {
-            System.out.println("점수 수정 성공");
-        } else {
-            System.out.println("점수 수정 실패");
-        }
     }
 
     // 수강생의 특정 과목 회차별 등급 조회

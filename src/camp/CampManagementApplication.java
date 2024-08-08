@@ -464,13 +464,12 @@ public class CampManagementApplication {
         String studentId = getStudentId();
         IStudent student = getStudentByStudentId(studentId); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
-
-
         if (student == null) {
             System.out.println("해당 ID의 수강생을 찾을 수 없습니다.");
             return;
         }
-
+        System.out.println("수강중인 과목");
+        student.getSubjects().keySet().stream().forEach(System.out::println);
         System.out.println("등록할 과목 이름: ");
         String subjectName = sc.next();
         ISubject subject = student.getSubjects().get(subjectName);
@@ -491,12 +490,22 @@ public class CampManagementApplication {
         scoreStore.add(scoreObj);
     }
 
+    private static String getStudent() {
+        List<IStudent> students = studentManager.getAllStudents();
+        for(IStudent student : students){
+            System.out.println(student.getStudentID()+"\t"+student.getName());
+        }
+        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
+        return sc.nextLine();
+
+    }
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
         System.out.println("시험 점수를 수정합니다.");
-        System.out.println("학생 ID를 입력하세요.");
+        String studentId = getStudent();
         String studentID = sc.next(); // 관리할 수강생 고유 번호
         IStudent student = getStudentByStudentId(studentID);
+        student.getSubjects().keySet().stream().forEach(System.out::println);
         Map<String, ISubject> subject = student.getSubjects();
 
         if (student == null) {
@@ -553,6 +562,7 @@ public class CampManagementApplication {
 
     private static void averageGradeBySubject() {
         System.out.println("수강생의 과목별 평균 등급을 조회합니다...");
+        String id = getStudent();
         System.out.print("조회할 수강생의 ID 입력: ");
         String studentID = sc.next(); // 관리할 수강생 고유 번호
         IStudent student = getStudentByStudentId(studentID);
@@ -560,6 +570,7 @@ public class CampManagementApplication {
             System.out.println("해당 ID의 수강생이 없습니다.");
             return;
         }
+        student.getSubjects().keySet().stream().forEach(System.out::println);
         System.out.println(student.getName() + "의 과목별 평균 등급: ");
         Map<String, ISubject> subjects = student.getSubjects();
         for (Map.Entry<String, ISubject> entry : subjects.entrySet()) {

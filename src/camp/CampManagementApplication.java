@@ -495,7 +495,7 @@ public class CampManagementApplication {
         for(IStudent student : students){
             System.out.println(student.getStudentID()+"\t"+student.getName());
         }
-        System.out.print("\n관리할 수강생의 번호를 입력하시오...");
+        System.out.println("\n관리할 수강생의 번호를 입력하시오...");
         return sc.nextLine();
 
     }
@@ -570,7 +570,6 @@ public class CampManagementApplication {
             System.out.println("해당 ID의 수강생이 없습니다.");
             return;
         }
-        student.getSubjects().keySet().stream().forEach(System.out::println);
         System.out.println(student.getName() + "의 과목별 평균 등급: ");
         Map<String, ISubject> subjects = student.getSubjects();
         for (Map.Entry<String, ISubject> entry : subjects.entrySet()) {

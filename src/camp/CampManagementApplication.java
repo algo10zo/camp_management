@@ -229,13 +229,13 @@ public class CampManagementApplication {
         if (mandatorySubjects.length < 3) {
             System.out.println("필수 과목은 최소 3개를 선택해야 합니다.");
             System.out.println("등록 실패");
-            sc.next();
+            sc.nextLine();
             return;
         }
         if (choiceSubjects.length < 2) {
             System.out.println("선택 과목은 최소 2개를 선택해야 합니다.");
             System.out.println("등록 실패");
-            sc.next();
+            sc.nextLine();
             return;
         }
 
@@ -463,6 +463,7 @@ public class CampManagementApplication {
 
     // 수강생의 과목별 시험 회차 및 점수 등록
     private static void createScore() {
+        System.out.println("ID\t이름");
         String studentId = getStudentId();
         IStudent student = getStudentByStudentId(studentId); // 관리할 수강생 고유 번호
         System.out.println("시험 점수를 등록합니다...");
@@ -504,6 +505,7 @@ public class CampManagementApplication {
     // 수강생의 과목별 회차 점수 수정
     private static void updateRoundScoreBySubject() {
         System.out.println("시험 점수를 수정합니다.");
+        System.out.println("ID\t이름");
         String studentId = getStudent();
         String studentID = sc.next(); // 관리할 수강생 고유 번호
         IStudent student = getStudentByStudentId(studentID);
@@ -539,6 +541,7 @@ public class CampManagementApplication {
 
     // 수강생의 특정 과목 회차별 등급 조회
     private static void inquireRoundGradeBySubject() {
+        System.out.println("ID\t이름");
         String studentId = getStudentId(); // 관리할 수강생 고유 번호
         Student st;
         String grade = "";
@@ -565,6 +568,7 @@ public class CampManagementApplication {
 
     private static void averageGradeBySubject() {
         System.out.println("수강생의 과목별 평균 등급을 조회합니다...");
+        System.out.println("ID\t이름");
         String id = getStudent();
         System.out.print("조회할 수강생의 ID 입력: ");
         String studentID = sc.next(); // 관리할 수강생 고유 번호

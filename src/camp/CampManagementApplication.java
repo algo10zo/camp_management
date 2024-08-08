@@ -229,11 +229,13 @@ public class CampManagementApplication {
         if (mandatorySubjects.length < 3) {
             System.out.println("필수 과목은 최소 3개를 선택해야 합니다.");
             System.out.println("등록 실패");
+            sc.next();
             return;
         }
         if (choiceSubjects.length < 2) {
             System.out.println("선택 과목은 최소 2개를 선택해야 합니다.");
             System.out.println("등록 실패");
+            sc.next();
             return;
         }
 

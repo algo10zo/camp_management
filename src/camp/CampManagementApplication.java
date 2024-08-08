@@ -353,6 +353,7 @@ public class CampManagementApplication {
         System.out.print("수강생 ID 입력: ");
         String studentID = sc.next();
         IStudent student = studentManager.getStudentById(studentID);
+        IStudent student2 = getStudentByStudentId(studentID);
         if (student == null) {
             throw new NoSuchElementException("해당 ID를 가진 수강생은 존재 하지 않습니다");
         }
@@ -380,6 +381,7 @@ public class CampManagementApplication {
                     throw new IllegalStateException("잘못된 상태 입력입니다.");
                 }
                 studentManager.updateStudentStatus(studentID, newStatus);
+                student2.setStatus(newStatus);
                 System.out.println("수강생 상태 수정 성공");
 
             }
@@ -487,7 +489,6 @@ public class CampManagementApplication {
         System.out.print("점수 입력: ");
         int score = sc.nextInt();
         subject.addScore(round, score);
-
         Score scoreObj = new Score(round, score);
         String subjectType = subject.getSubjectType();
         scoreStore.add(scoreObj);

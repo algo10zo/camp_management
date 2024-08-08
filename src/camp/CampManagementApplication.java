@@ -534,6 +534,7 @@ public class CampManagementApplication {
         System.out.println("수정할 점수를 입력하세요: ");
         int updateScore = sc.nextInt();
         student.getSubjects().get(subjectName).updateScore(round, updateScore);
+        System.out.println("점수 수정에 성공 했습니다");
     }
 
     // 수강생의 특정 과목 회차별 등급 조회
